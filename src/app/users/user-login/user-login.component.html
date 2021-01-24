@@ -1,0 +1,61 @@
+
+    <div class="login-form">
+        <div>
+            <h1>
+                Welcome Back
+            </h1>
+        </div>
+        <form class="form-control" (ngSubmit)="onLogin(f)" #f="ngForm">
+            <div class="item">              
+                <input 
+                 type="text"                 
+                 name="username"
+                 ngModel 
+                 placeholder="User Name"
+                 required
+                 #username = "ngModel"
+                 >
+                 <div *ngIf="username.invalid && (username.dirty || username.touched)"
+                 class="validation">
+
+                <div *ngIf="username.errors.required">
+                 Username is required.
+                 </div>
+                 </div>
+            </div>        
+            <div class="item">          
+                 <input
+                 class="description-box" 
+                 type="password"
+                 name="password"               
+                 ngModel
+                 required
+                 minlength="6"
+                 maxlength="20"
+                 placeholder="Password"       
+                 #password = "ngModel"    
+                 pattern="(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*"   
+                >         
+                <div *ngIf="password.invalid && (password.dirty || password.touched)"
+                     class="validation">
+
+                    <div *ngIf="password.errors.required">
+                     Password is required.
+                     </div>
+                    <div *ngIf="password.errors.minlength">
+                        Password must be at least 6 characters.
+                    </div>
+                    <div *ngIf="password.errors.maxlength">
+                        Password must be less than 4 characters.
+                    </div>
+                    <div *ngIf="password.errors.pattern">
+                        <label for="password">Password must contains at least one number and one capital letter</label>
+                        
+                    </div>
+               </div>            
+            </div> 
+            <div >                     
+                <button type="submit" [disabled]="!f.valid"  class="btn" >Log in</button>               
+            </div>
+        </form>       
+    </div>

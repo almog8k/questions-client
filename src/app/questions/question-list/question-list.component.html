@@ -1,0 +1,59 @@
+<div class="list-container">
+ <div class="head-box">
+         <div>
+            <input  type="text"  [(ngModel)] = "searchText" placeholder="Search..." class="search-box" /> 
+         </div>
+        <div >
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="drop-down">
+            Sort
+            <i nz-icon nzType="down"></i>
+          </a>
+          <nz-dropdown-menu #menu="nzDropdownMenu">
+            <ul nz-menu *ngFor="let option of selectOptions">                    
+              <li nz-menu-item (click)="sortBy(option)" >
+                {{option}}
+              </li>
+            </ul>
+          </nz-dropdown-menu> 
+        </div> 
+    </div>
+    <div class="table"  > 
+        <div>
+                <th *ngFor = "let column of tableHeaders">
+                {{column}}
+                </th>        
+                       
+                <tr  *ngFor="let questionEl of questions | searchFilter: searchText " >                
+                        <td  >
+                                {{questionEl.id}}
+                        </td>
+                        <td >{{questionEl.name}}</td>
+                        <td> {{questionEl.creationDate | date:'d/M/yy, hh:mm a'}}</td>
+                        <td>
+                            <a>
+                                <i nz-icon nzType="database" class="icon" (click)="onSelectedDetailsQuestion(questionEl)" nzTheme="outline"></i>
+
+                            </a>
+                            <a>
+                                <i nz-icon nzType="edit" class="icon" (click)="onSelectedEditQuestion(questionEl)"  nzTheme="outline"></i>
+                            </a>
+                            <a>
+                                <i nz-icon nzType="delete" class="icon"  (click)="showPop(questionEl)"  nzTheme="outline" ></i>
+                            </a>
+                        </td>                                                                                     
+                </tr>  
+        </div>               
+                             
+    </div>
+    <div>
+        <button class="btn" (click)="onSelectedCreateQuestion()">Add New Question</button>
+    </div> 
+</div>
+
+<nz-modal [(nzVisible)]="popIsVisible" nzTitle="Delete" (nzOnCancel)="handleCancel()"  (nzOnOk)="handleOk()">
+    <ng-container *nzModalContent   >
+     <p>Are you sure you want to delete: "{{displayedPopQuestion.name}}" </p>
+    </ng-container>
+  </nz-modal>
+
+

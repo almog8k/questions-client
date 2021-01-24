@@ -1,0 +1,14 @@
+<div >
+    <div>
+        <h1>{{question.name}}</h1>
+        <h3>Id:{{question.id}}</h3>
+    </div>   
+    <div>
+        <textarea class="details-box" value="{{question.description}}" readonly="true">
+        </textarea>
+        
+    </div>
+    <div>
+        <button type="button" class="btn" (click)="onCancel()">Back</button>  
+    </div>
+</div>

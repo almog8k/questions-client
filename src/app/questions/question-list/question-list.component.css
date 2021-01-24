@@ -1,0 +1,76 @@
+.table { 
+    width: 97%;
+    background-color: lightgrey;
+    table-layout: fixed;  
+  }
+  
+  th { 
+    color: black; 
+    font-weight: bold;
+     
+  }
+  td, th { 
+    padding: 6px; 
+    border: 1px solid white; 
+    text-align: center; 
+    
+  }
+
+
+.list-container{
+    
+    display: flex;
+    flex-direction: column;
+ 
+    align-items: center;
+    
+   
+           
+}
+.list-container>*:first-child {
+  align-self: center;
+  margin-bottom: 20px;
+  
+}
+
+.btn{
+    background-color: rgb(59, 68, 68);
+    border-radius: 10px;
+    border: none;
+    color: white;
+    font-weight: bold;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px; 
+    margin-top: 20px; 
+    margin-left: 240px;   
+}
+.icon{
+  color: black;
+  padding: 7px 16px;
+  font-size: 20px;
+  
+}
+
+
+.search-box{
+ padding: 5px;
+ background-color: lightgray;
+ font-weight: bold;
+}
+.drop-down{
+color: gray; 
+font-size: 20px;
+font-weight: bold;
+margin-left: 180px;
+border: lightgrey;
+
+
+}
+.head-box{
+  display: flex;
+  flex-direction: row;
+  padding-top: 10px;
+}

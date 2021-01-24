@@ -1,0 +1,40 @@
+.flex-box{ 
+    display: flex;
+    flex-direction: row;
+    justify-content:center;
+    justify-items: center;   
+}
+
+.flex-box :first-child{
+    height: 50px;
+}
+.side-bar{    
+    background-color: rgb(197, 192, 192);
+    padding: 10px;
+    position: fixed;
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 100;
+
+    z-index: 200;
+
+    overflow: auto;
+}
+h1{
+    text-align: center;
+}
+
+.blanket {
+
+        position: fixed;
+        top: 0;
+        right: 0;
+        bottom: 0;
+        left: 0;
+        
+        background-color: #000;
+        opacity: 0.75;
+        
+        z-index: 100;
+}
