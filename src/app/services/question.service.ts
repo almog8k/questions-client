@@ -1,31 +1,42 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { EventEmitter, Injectable } from '@angular/core';
-import { Observable, Subject, throwError } from 'rxjs';
+import { EventEmitter, Injectable, OnInit } from '@angular/core';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { Question } from '../questions/models/question.model';
-import { map, catchError } from 'rxjs/operators';
+import { map, catchError, tap } from 'rxjs/operators';
 import {SideBarType} from '../questions/enums/sidebar.enum'
-
+import { ApiService } from './api.service';
 
 
 @Injectable({
   providedIn: 'root'
 })
-export class QuestionService{
+export class QuestionService  {
   private baseUrl = "http://localhost:3000/qa/";
 
-  
-  
   questionSelected = new Subject<Question>();
   selectedBtn = new Subject<SideBarType>();
+  questionsSubject = new BehaviorSubject<Question[]>(null);
   questionAdded = new Subject<void>();
   questionDeleted = new Subject<void>();
   questionedited = new Subject<void>();
   
-  constructor(private http:HttpClient ) { }
-          
-      getQuestions(): Observable<any>{
-    return this.http.get<Observable<any>>(this.baseUrl)
+  constructor(private http:HttpClient , private apiServie:ApiService ) {}
+     
+    getQuestions(): Observable<any>{
+    return this.http.get<Observable<any>>(this.baseUrl);
+    
   }
+    // getQuestionsTest(): Observable<Question[]>{
+    //   this.refreshQuestionsData();
+    //   return this.questionsSubject.asObservable();
+    // }
+    // refreshQuestionsData(): Observable<void>{
+    //   return this.http.get<any>(this.baseUrl).pipe(
+    //     tap(response =>{
+    //       this.questionsSubject.next(response.questions)
+    //     })
+    //   );
+    // }
     
       addQuestion(question:Question){
         return this.http.post(`${this.baseUrl}/create`,question,{

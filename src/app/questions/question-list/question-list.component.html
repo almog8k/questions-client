@@ -24,8 +24,8 @@
                 </th>        
                        
                 <tr  *ngFor="let questionEl of questions | searchFilter: searchText " >                
-                        <td  >
-                                {{questionEl.id}}
+                       <td [innerHTML]="questionEl.id | questionIdPipe">       
+
                         </td>
                         <td >{{questionEl.name}}</td>
                         <td> {{questionEl.creationDate | date:'d/M/yy, hh:mm a'}}</td>

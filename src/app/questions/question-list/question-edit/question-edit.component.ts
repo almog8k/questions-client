@@ -1,5 +1,5 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
-import { Question } from '../models/question.model';
+import { Question } from 'src/app/questions/models/question.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { NgForm } from '@angular/forms';
 

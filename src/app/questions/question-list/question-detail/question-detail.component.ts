@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
-import { Question } from '../models/question.model';
+import { Question } from '../../models/question.model';
 
 @Component({
   selector: 'app-question-detail',

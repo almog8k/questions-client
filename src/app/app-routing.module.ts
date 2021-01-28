@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from './auth.guard';
-import { GraphsComponent } from './graphs/graphs.component';
+import { ChartsComponent } from './charts/charts.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { UserRegisterComponent } from './users/user-register/user-register.component';
 import { UsersComponent } from './users/users.component';
@@ -13,7 +13,7 @@ const routes: Routes = [
     canActivate: [AuthGuard]
    },
    { path: 'graphs', 
-   component: GraphsComponent,
+   component: ChartsComponent,
    canActivate: [AuthGuard]
   },
   { path: 'register', 

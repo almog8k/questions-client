@@ -9,11 +9,11 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { QuestionsComponent } from './questions/questions.component';
 import { QuestionListComponent } from './questions/question-list/question-list.component';
-import { QuestionDetailComponent } from './questions/question-detail/question-detail.component';
+import { QuestionDetailComponent } from './questions/question-list/question-detail/question-detail.component';
 import { UsersComponent } from './users/users.component';
 import { UserLoginComponent } from './users/user-login/user-login.component';
-import { QuestionEditComponent } from './questions/question-edit/question-edit.component';
-import { QuestionCreateComponent } from './questions/question-create/question-create.component';
+import { QuestionEditComponent } from './questions/question-list/question-edit/question-edit.component';
+import { QuestionCreateComponent } from './questions/question-list/question-create/question-create.component';
 import { FormsModule } from '@angular/forms';
 import {QuestionService} from './services/question.service';
 import { SearchFilterPipe } from './questions/pipes/search-filter.pipe';
@@ -28,14 +28,12 @@ import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { HeaderComponent } from './header/header.component'
 import { AuthGuard } from './auth.guard';
 import { TokenInterceptorService } from './services/token-interceptor.service';
-import { GraphsComponent } from './graphs/graphs.component';
-import { BarGraphComponent } from './graphs/bar-graph/bar-graph.component';
-import { PieChartComponent } from './graphs/pie-chart/pie-chart.component';
-import { ChartComponent } from './graphs/chart/chart.component';
 import { UserService } from './services/user.service';
-import { GraphsService } from './graphs/services/graphs.service';
 import { UserRegisterComponent } from './users/user-register/user-register.component';
-
+import { ChartsComponent } from './charts/charts.component';
+import { StackedBarChartComponent } from './charts/stacked-bar-chart/stacked-bar-chart.component';
+import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
+import { QuestionIdPipe } from './questions/pipes/question-id.pipe';
 
 registerLocaleData(en);
 
@@ -51,11 +49,11 @@ registerLocaleData(en);
     QuestionCreateComponent,
     SearchFilterPipe,
     HeaderComponent,
-    GraphsComponent,
-    BarGraphComponent,
     PieChartComponent,
-    ChartComponent,
-    UserRegisterComponent
+    UserRegisterComponent,
+    ChartsComponent,
+    StackedBarChartComponent,
+    QuestionIdPipe
   ],
   imports: [
     BrowserModule,

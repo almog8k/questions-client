@@ -28,16 +28,12 @@ export class QuestionListComponent implements OnInit {
   }
     getQuestions(){
       this.questionService.getQuestions().subscribe(
-        res => this.questions = res.questions,
-        err => {
-          if(err instanceof HttpResponse){
-            if(err.status === 403){
-              this.router.navigate(['/']);
-            }
-          }
-        }    
+        res => {
+          this.questions = res.questions;
+        }
       )
     }
+    
     updateQuestionsOnChange(){
       this.questionService.questionAdded.subscribe(
         () => this.getQuestions()

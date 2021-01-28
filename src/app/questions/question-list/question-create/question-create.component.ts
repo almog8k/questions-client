@@ -1,7 +1,7 @@
 import { Component, OnInit,ElementRef,  ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
-import { Question } from '../models/question.model';
+import { Question } from '../../models/question.model';
 
 @Component({
   selector: 'app-question-create',
