@@ -24,12 +24,12 @@
                 </th>        
                        
                 <tr  *ngFor="let questionEl of questions | searchFilter: searchText " >                
-                       <td [innerHTML]="questionEl.id | questionIdPipe">       
+                       <td  class="id-td" [innerHTML]="questionEl.id | questionIdPipe">       
 
                         </td>
-                        <td >{{questionEl.name}}</td>
-                        <td> {{questionEl.creationDate | date:'d/M/yy, hh:mm a'}}</td>
-                        <td>
+                        <td class="prop-td">{{questionEl.name}}</td>
+                        <td class="prop-td"> {{questionEl.creationDate | date:'d/M/yy, hh:mm a'}}</td>
+                        <td class="prop-td">
                             <a>
                                 <i nz-icon nzType="database" class="icon" (click)="onSelectedDetailsQuestion(questionEl)" nzTheme="outline"></i>
 
@@ -44,8 +44,8 @@
                 </tr>  
         </div>               
                              
-    </div>
-    <div>
+      </div>
+    <div class="btn-pos">
         <button class="btn" (click)="onSelectedCreateQuestion()">Add New Question</button>
     </div> 
 </div>
