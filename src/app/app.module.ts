@@ -4,6 +4,8 @@ import {HttpClientModule, HttpInterceptor, HTTP_INTERCEPTORS} from '@angular/com
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalModule } from 'ng-zorro-antd/modal';
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -34,6 +36,8 @@ import { ChartsComponent } from './charts/charts.component';
 import { StackedBarChartComponent } from './charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { QuestionIdPipe } from './questions/pipes/question-id.pipe';
+import { DatePickerComponent } from './date-picker/date-picker.component';
+
 
 registerLocaleData(en);
 
@@ -53,7 +57,8 @@ registerLocaleData(en);
     UserRegisterComponent,
     ChartsComponent,
     StackedBarChartComponent,
-    QuestionIdPipe
+    QuestionIdPipe,
+    DatePickerComponent
   ],
   imports: [
     BrowserModule,
@@ -66,7 +71,8 @@ registerLocaleData(en);
     NzLayoutModule,
     NzMenuModule,
     NzDropDownModule,
-    NzModalModule
+    NzModalModule,
+    NzDatePickerModule
   ],
   providers: [
     QuestionService,

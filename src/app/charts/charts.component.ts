@@ -1,9 +1,6 @@
-import { DatePipe } from '@angular/common';
+
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { BehaviorSubject, Subject } from 'rxjs';
-import { Question } from '../questions/models/question.model';
 import { QuestionService } from '../services/question.service';
-import { ChartQuestion } from './models/chart-question.model';
 import { ChartService } from './services/chart.service';
 
 @Component({
@@ -13,22 +10,30 @@ import { ChartService } from './services/chart.service';
 })
 export class ChartsComponent implements OnInit {
   stackedBarData: any[] = [];
+  pieChartData: any[] = [];
   seriesStackedBarData: string[] = [];
-  pieChartData: ChartQuestion[] = []
+  currentDateRange: Date[];
 
   constructor(private questionService:QuestionService, private chartsService:ChartService) { 
 
   }
+
   ngOnInit(): void {
     this.questionService.getQuestions().subscribe(
       res => {
         let questions = res.questions;
-        let chartQuestions = this.chartsService.getChartQuestions(questions);       
-        this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions); 
-        this.seriesStackedBarData = this.chartsService.createStackedBarSeriesData(chartQuestions)
-        this.pieChartData =  this.chartsService.createPieChartData(chartQuestions);    
-        console.log(this.pieChartData);
+        this.chartsService.selectedDates.subscribe(
+          dates => {
+            this.currentDateRange = dates
+          console.log(this.currentDateRange)
+          let filteredQuestions = this.chartsService.filterQuestionsByDate(questions, this.currentDateRange)
+          let chartQuestions = this.chartsService.getChartQuestions(filteredQuestions);
+          console.log(chartQuestions);       
+          this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions); 
+          this.seriesStackedBarData = this.chartsService.createStackedBarSeriesData(chartQuestions)
+          this.pieChartData =  this.chartsService.createPieChartData(chartQuestions);
+          });           
       });   
   }
-
+ 
 }

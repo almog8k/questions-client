@@ -71,8 +71,16 @@ function createSeries(field, name) {
   
   // Configure columns
   series.columns.template.width = am4core.percent(60);
-  series.columns.template.tooltipText = "[bold]{name}[/]\n[font-size:14px]{categoryX}: {valueY}";
-  
+  series.columns.template.tooltipHTML = `
+  <center><strong>{categoryX}</strong></center>
+  <hr>
+  <table >
+    <tr>
+      <th align="left" style="color:orange">{name}</th>
+      <td style="padding-left: 4em">{valueY} Questions</td>
+    </tr>
+</table>  
+  `
   // Add label
   let labelBullet = series.bullets.push(new am4charts.LabelBullet());
   labelBullet.label.text = "{valueY}";
