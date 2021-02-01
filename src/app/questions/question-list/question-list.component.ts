@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Question } from '../models/question.model';
 import {QuestionService} from 'src/app/services/question.service';
-import { HttpResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
 import {SideBarType} from '../enums/sidebar.enum'
 
@@ -16,6 +15,7 @@ export class QuestionListComponent implements OnInit {
   tableHeaders = ['Id', 'Name', 'Date', ''];
   selectOptions = ["Name", 'Date'];
   questions:Question[];
+  selecteOption;
   searchText:string = '';
   popIsVisible = false;
   displayedPopQuestion:Question;
@@ -24,7 +24,7 @@ export class QuestionListComponent implements OnInit {
 
   ngOnInit(): void {
     this.getQuestions();
-    this.updateQuestionsOnChange();
+    this.updateQuestionsOnChange();  
   }
     getQuestions(){
       this.questionService.getQuestions().subscribe(
@@ -34,40 +34,39 @@ export class QuestionListComponent implements OnInit {
       )
     }
     
-    updateQuestionsOnChange(){
-      this.questionService.questionAdded.subscribe(
-        () => this.getQuestions()
-      );
-      this.questionService.questionDeleted.subscribe(
-        () => this.getQuestions()
-      );
-      this.questionService.questionedited.subscribe(
-        () => this.getQuestions()
-      );
+    updateQuestionsOnChange(){     
+      this.questionService.questionsChanged.subscribe(
+        ()=> this.getQuestions()
+      );  
     }
 
-   onSelectedDetailsQuestion(questionEl:Question){
+  onSelectedDetails(questionEl:Question){
     this.getSelectedQuestion(questionEl);
-    this.questionService.selectedBtn.next(SideBarType.Details);
+    this.questionService.selectedSideBar.next(SideBarType.Details);
     
   }
-  onSelectedEditQuestion(questionEl:Question){
+  onSelectedEdit(questionEl:Question){
     this.getSelectedQuestion(questionEl);
-    this.questionService.selectedBtn.next(SideBarType.Edit);
+    this.questionService.selectedSideBar.next(SideBarType.Edit);
   }
-  onSelectedCreateQuestion(){
-    this.questionService.selectedBtn.next(SideBarType.Create);
+  onSelectedCreate(){
+    this.questionService.selectedSideBar.next(SideBarType.Create);
   }
+
   getSelectedQuestion(question:Question){
-    this.questionService.questionSelected.next(question);  
+    this.questionService.selectedQuestion.next(question);  
   }
   onDeletedQuestion(questionId:string){
     this.questionService.deleteQuestion(questionId).subscribe(()=>{
       this.getQuestions();
-      this.questionService.questionDeleted.next();
     });
   }
+
+  onOptionChange(option){
+    console.log(option);
+  }
   sortBy(option:String){
+    console.log(option);
     switch (option) {
       case "Name":
         this.questions.sort((a,b)=> a.name.localeCompare(b.name))

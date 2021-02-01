@@ -19,12 +19,12 @@ export class QuestionsComponent implements OnInit {
   constructor(private questionService:QuestionService) { }
 
   ngOnInit(): void {   
-      this.questionService.questionSelected.subscribe(
+      this.questionService.selectedQuestion.subscribe(
         (question:Question)=>{
           this.selectedQuestion = question
         }
       );
-      this.questionService.selectedBtn.subscribe(
+      this.questionService.selectedSideBar.subscribe(
         (toggle:SideBarType)=>{
           this.toggleBtn = toggle 
         }

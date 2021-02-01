@@ -1,7 +1,6 @@
-import { object } from '@amcharts/amcharts4/core';
+
 import { DatePipe } from '@angular/common';
-import { Injectable, OnInit, ɵConsole } from '@angular/core';
-import { Console } from 'console';
+import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Question } from 'src/app/questions/models/question.model';
 import { ChartQuestion } from '../models/chart-question.model';

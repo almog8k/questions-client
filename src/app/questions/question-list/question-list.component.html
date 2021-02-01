@@ -4,13 +4,13 @@
             <input  type="text"  [(ngModel)] = "searchText" placeholder="Search..." class="search-box" /> 
          </div>
         <div >
-            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="drop-down">
+            <a nz-dropdown nzTrigger="click" [nzDropdownMenu]="menu" class="drop-down" >
             Sort
             <i nz-icon nzType="down"></i>
           </a>
-          <nz-dropdown-menu #menu="nzDropdownMenu">
+          <nz-dropdown-menu #menu="nzDropdownMenu" >
             <ul nz-menu *ngFor="let option of selectOptions">                    
-              <li nz-menu-item (click)="sortBy(option)" >
+              <li nz-menu-item  (click)="sortBy(option)" >
                 {{option}}
               </li>
             </ul>
@@ -31,11 +31,11 @@
                         <td class="prop-td"> {{questionEl.creationDate | date:'d/M/yy, hh:mm a'}}</td>
                         <td class="prop-td">
                             <a>
-                                <i nz-icon nzType="database" class="icon" (click)="onSelectedDetailsQuestion(questionEl)" nzTheme="outline"></i>
+                                <i nz-icon nzType="database" class="icon" (click)="onSelectedDetails(questionEl)" nzTheme="outline"></i>
 
                             </a>
                             <a>
-                                <i nz-icon nzType="edit" class="icon" (click)="onSelectedEditQuestion(questionEl)"  nzTheme="outline"></i>
+                                <i nz-icon nzType="edit" class="icon" (click)="onSelectedEdit(questionEl)"  nzTheme="outline"></i>
                             </a>
                             <a>
                                 <i nz-icon nzType="delete" class="icon"  (click)="showPop(questionEl)"  nzTheme="outline" ></i>
@@ -46,7 +46,7 @@
                              
       </div>
     <div class="btn-pos">
-        <button class="btn" (click)="onSelectedCreateQuestion()">Add New Question</button>
+        <button class="btn" (click)="onSelectedCreate()">Add New Question</button>
     </div> 
 </div>
 

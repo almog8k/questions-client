@@ -1,6 +1,7 @@
 import { Component, OnInit,ElementRef,  ViewChild } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
+import { SideBarType } from '../../enums/sidebar.enum';
 import { Question } from '../../models/question.model';
 
 @Component({
@@ -19,16 +20,16 @@ export class QuestionCreateComponent implements OnInit {
   
   onAddQuestion(form: NgForm){
    let question = form.value;
-   const newQuestion = new Question(question.name, question.description);
+   let newQuestion = new Question(question.name, question.description);
    console.log(newQuestion);
    this.questionService.addQuestion(newQuestion).subscribe(
      ()=>{
-      this.questionService.questionAdded.next();   
+      this.questionService.questionsChanged.next();   
      } 
    );
      form.reset();
   }
   onCancel(){
-    this.questionService.selectedBtn.next();
+    this.questionService.selectedSideBar.next(SideBarType.None);
   }
 }

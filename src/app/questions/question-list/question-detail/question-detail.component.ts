@@ -1,5 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { QuestionService } from 'src/app/services/question.service';
+import { SideBarType } from '../../enums/sidebar.enum';
 import { Question } from '../../models/question.model';
 
 @Component({
@@ -14,6 +15,6 @@ export class QuestionDetailComponent implements OnInit {
   ngOnInit(): void {
   }
   onCancel(){
-    this.questionService.selectedBtn.next();
+    this.questionService.selectedSideBar.next(SideBarType.None);
   }
 }
