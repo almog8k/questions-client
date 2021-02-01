@@ -15,7 +15,6 @@ export class QuestionService  {
 
   questionSelected = new Subject<Question>();
   selectedBtn = new Subject<SideBarType>();
-  questionsSubject = new BehaviorSubject<Question[]>(null);
   questionAdded = new Subject<void>();
   questionDeleted = new Subject<void>();
   questionedited = new Subject<void>();
@@ -26,17 +25,6 @@ export class QuestionService  {
     return this.http.get<Observable<any>>(this.baseUrl);
     
   }
-    // getQuestionsTest(): Observable<Question[]>{
-    //   this.refreshQuestionsData();
-    //   return this.questionsSubject.asObservable();
-    // }
-    // refreshQuestionsData(): Observable<void>{
-    //   return this.http.get<any>(this.baseUrl).pipe(
-    //     tap(response =>{
-    //       this.questionsSubject.next(response.questions)
-    //     })
-    //   );
-    // }
     
       addQuestion(question:Question){
         return this.http.post(`${this.baseUrl}/create`,question,{

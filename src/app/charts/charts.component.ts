@@ -8,32 +8,38 @@ import { ChartService } from './services/chart.service';
   templateUrl: './charts.component.html',
   styleUrls: ['./charts.component.css']
 })
-export class ChartsComponent implements OnInit {
+export class ChartsComponent implements OnInit, OnDestroy {
   stackedBarData: any[] = [];
   pieChartData: any[] = [];
   seriesStackedBarData: string[] = [];
-  currentDateRange: Date[];
-
   constructor(private questionService:QuestionService, private chartsService:ChartService) { 
 
   }
 
+
   ngOnInit(): void {
+   
     this.questionService.getQuestions().subscribe(
-      res => {
-        let questions = res.questions;
+      data => {
+        let questions = data.questions;
         this.chartsService.selectedDates.subscribe(
-          dates => {
-            this.currentDateRange = dates
-          console.log(this.currentDateRange)
-          let filteredQuestions = this.chartsService.filterQuestionsByDate(questions, this.currentDateRange)
-          let chartQuestions = this.chartsService.getChartQuestions(filteredQuestions);
-          console.log(chartQuestions);       
-          this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions); 
-          this.seriesStackedBarData = this.chartsService.createStackedBarSeriesData(chartQuestions)
-          this.pieChartData =  this.chartsService.createPieChartData(chartQuestions);
+          dateRange => {
+            this.chartsService.popularToggle.subscribe(popularToggle=>{
+              let filteredQuestions = this.chartsService.filterQuestionsByDate(questions,  dateRange)
+              let chartQuestions = this.chartsService.getChartQuestions(filteredQuestions);    
+              this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions, popularToggle); 
+              this.seriesStackedBarData = this.chartsService.createStackedBarSeriesData(chartQuestions, popularToggle)
+              this.pieChartData =  this.chartsService.createPieChartData(chartQuestions);
+            } );
           });           
-      });   
+      }); 
+      
   }
- 
+  onToggleChange( switchValue:boolean){
+    this.chartsService.popularToggle.next(switchValue);
+  }
+  ngOnDestroy(): void {
+    this.chartsService.selectedDates.next([]);
+    this.chartsService.popularToggle.next(false);
+  }
 }

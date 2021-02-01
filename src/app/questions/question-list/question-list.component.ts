@@ -14,7 +14,7 @@ import {SideBarType} from '../enums/sidebar.enum'
 export class QuestionListComponent implements OnInit {
  
   tableHeaders = ['Id', 'Name', 'Date', ''];
-  selectOptions = ["Id", "Name", 'Date'];
+  selectOptions = ["Name", 'Date'];
   questions:Question[];
   searchText:string = '';
   popIsVisible = false;
@@ -67,11 +67,8 @@ export class QuestionListComponent implements OnInit {
       this.questionService.questionDeleted.next();
     });
   }
-  sortBy(name:String){
-    switch (name) {
-      case "Id":
-        this.questions.sort((a,b)=> a.id.localeCompare(b.id))
-        break; 
+  sortBy(option:String){
+    switch (option) {
       case "Name":
         this.questions.sort((a,b)=> a.name.localeCompare(b.name))
         break;

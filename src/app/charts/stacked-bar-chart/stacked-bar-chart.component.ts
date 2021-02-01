@@ -4,6 +4,7 @@ import { Component, Inject, Input, NgZone, OnInit, PLATFORM_ID } from '@angular/
 import * as am4core from '@amcharts/amcharts4/core';
 import * as am4charts from '@amcharts/amcharts4/charts';
 import am4themes_animated from '@amcharts/amcharts4/themes/animated';
+import { ChartService } from '../services/chart.service';
 
 
 @Component({
@@ -14,14 +15,17 @@ import am4themes_animated from '@amcharts/amcharts4/themes/animated';
 export class StackedBarChartComponent implements OnInit {
 @Input() data: any;
 @Input() seriesData: string[];
-title: String;
+switchValue = false;
   private chart: am4charts.XYChart;
-constructor(@Inject(PLATFORM_ID) private platformId, private zone: NgZone, ) {}
+constructor(@Inject(PLATFORM_ID) private platformId, private zone: NgZone, private chartsService:ChartService) {}
 
   ngOnInit(): void {
 
   }
 
+  onToggleChange( switchValue:boolean){
+    this.chartsService.popularToggle.next(switchValue);
+  }
   // Run the function only in the browser
   browserOnly(f: () => void) {
     if (isPlatformBrowser(this.platformId)) {
@@ -79,7 +83,7 @@ function createSeries(field, name) {
       <th align="left" style="color:orange">{name}</th>
       <td style="padding-left: 4em">{valueY} Questions</td>
     </tr>
-</table>  
+  </table>  
   `
   // Add label
   let labelBullet = series.bullets.push(new am4charts.LabelBullet());

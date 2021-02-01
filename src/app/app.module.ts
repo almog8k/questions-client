@@ -36,7 +36,8 @@ import { ChartsComponent } from './charts/charts.component';
 import { StackedBarChartComponent } from './charts/stacked-bar-chart/stacked-bar-chart.component';
 import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { QuestionIdPipe } from './questions/pipes/question-id.pipe';
-import { DatePickerComponent } from './date-picker/date-picker.component';
+import { DatePickerComponent } from './charts/date-picker/date-picker.component';
+import { NzSwitchModule } from 'ng-zorro-antd/switch';
 
 
 registerLocaleData(en);
@@ -72,7 +73,8 @@ registerLocaleData(en);
     NzMenuModule,
     NzDropDownModule,
     NzModalModule,
-    NzDatePickerModule
+    NzDatePickerModule,
+    NzSwitchModule
   ],
   providers: [
     QuestionService,

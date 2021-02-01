@@ -1,5 +1,7 @@
+import { object } from '@amcharts/amcharts4/core';
 import { DatePipe } from '@angular/common';
-import { Injectable } from '@angular/core';
+import { Injectable, OnInit, ɵConsole } from '@angular/core';
+import { Console } from 'console';
 import { BehaviorSubject } from 'rxjs';
 import { Question } from 'src/app/questions/models/question.model';
 import { ChartQuestion } from '../models/chart-question.model';
@@ -9,9 +11,10 @@ import { ChartQuestion } from '../models/chart-question.model';
 })
 export class ChartService {
 selectedDates = new BehaviorSubject<Date[]>([]);
+popularToggle = new BehaviorSubject<boolean>(false);
+toggleSeriesData:string[] = [];
   constructor(private datePipe:DatePipe) { }
-
-
+  
 
 public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
   let filteredQuestions = [];
@@ -60,31 +63,36 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
      return chartQuestion;  
    }
  
-  public createStackedBarData(chartQuestions) {
+  public createStackedBarData(chartQuestions, isToggled) {
      let source = chartQuestions;
      let category = {};
      let data = [];
      for(let i = 0; i < source.length; i++) {
-       let row = source[i];
+       let row = source[i];       
        if (category[row.day] == undefined) {
          category[row.day] = {
-           category: row.day
+           category: row.day         
          };
          data.push(category[row.day]);
        }
-       category[row.day][source[i].hour] = row['count'];
-     }
+        category[row.day][source[i].hour] = row['count'];           
+      }  
+      if(!isToggled)
      return data;
+     else{
+      return this.getTopFiveHoursData(data);
+     }
    }
    public createPieChartData(chartQuestions) {
      let source = chartQuestions;
+     console.log(source);
      let category = {};
      let data = [];
      for(let i = 0; i < source.length; i++) {    
        let row = source[i];
        if (category[row.day] == undefined) {
          category[row.day] = {
-           category: row.day,
+          category: row.day,
            value: 0       
          };
          data.push(category[row.day]);      
@@ -93,14 +101,62 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
      }
      return data;
    }
-  public createStackedBarSeriesData(chartQuestions:ChartQuestion[]){
+  public createStackedBarSeriesData(chartQuestions:ChartQuestion[], isToggled){
     let seriesData =[]
     chartQuestions.forEach(chartQuestion => {
      if(!(seriesData.includes(chartQuestion.hour))){
        seriesData.push(chartQuestion.hour);
      }
     });  
+    if(isToggled){
+      seriesData = this.toggleSeriesData;
+      seriesData.push("others");
+      this.toggleSeriesData = [];
+    }   
     seriesData.sort();
     return seriesData;
+   }
+   private getTopFiveHoursData(stackedBarData){
+     let source = stackedBarData;
+     let data = [];
+     for(let i = 0; i < source.length; i++) {    
+      let row = source[i]; 
+      let sortedRow = this.sortRowValues(row, 5) 
+      data[i] = sortedRow;
+     }
+     return data;
+   }
+   //function gets category row and number of top values;
+    private sortRowValues(row, topValuesNumber:number){
+
+      let category = row["category"]
+      delete row["category"]
+      let sortable = [];
+      for(let hour in row){
+          sortable.push([hour, row[hour]])
+      }
+      sortable.sort((a,b)=>{
+        return b[1] - a[1]; 
+      })
+      let topFive = sortable.slice(0,topValuesNumber)
+      let others = sortable.slice(topValuesNumber);
+      let othersSum = 0;
+      for (let i = 0; i < topFive.length; i++) {
+        const hour = topFive[i];
+        if(!(this.toggleSeriesData.includes(hour[0])))
+        this.toggleSeriesData.push(hour[0])
+      }
+      for (let i = 0; i < others.length; i++) {
+        const element = others[i];
+        othersSum = othersSum + element[1];
+      }
+      console.log(others);
+      topFive.push(["others", othersSum])
+      let sortedObj ={};
+      sortedObj['category'] = category;
+      topFive.forEach(item => {
+        sortedObj[item[0]]=item[1];
+      });
+      return sortedObj;    
    }
 }

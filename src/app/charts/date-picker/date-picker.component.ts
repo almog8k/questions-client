@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { ChartService } from '../charts/services/chart.service';
+import { ChartService } from '../services/chart.service';
 
 @Component({
   selector: 'app-date-picker',
@@ -8,7 +8,7 @@ import { ChartService } from '../charts/services/chart.service';
 })
 export class DatePickerComponent {
   date = null;
-  dates : Date[];
+
 
 constructor(private chartService:ChartService) {}
 
