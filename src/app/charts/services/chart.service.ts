@@ -11,6 +11,7 @@ import { ChartQuestion } from '../models/chart-question.model';
 export class ChartService {
 selectedDates = new BehaviorSubject<Date[]>([]);
 popularToggle = new BehaviorSubject<boolean>(false);
+noResults = new BehaviorSubject(false);
 toggleSeriesData:string[] = [];
   constructor(private datePipe:DatePipe) { }
   
@@ -20,7 +21,8 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
   let dateFrom = dateRange[0];
   let dateTo = dateRange[1];
   if(dateRange.length === 0){
-    filteredQuestions = questions;
+    this.noResults.next(false);
+    filteredQuestions = questions;   
   }
   else{
     questions.forEach(question => {
@@ -30,6 +32,9 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
         filteredQuestions.push(question);
       }
     });
+    if(filteredQuestions.length === 0){
+      this.noResults.next(true);
+    }
   }  
   return filteredQuestions;
 }
@@ -52,6 +57,7 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
        chartQuestions.push(chartQuestion);
       }         
      });
+     console.log(chartQuestions);
      return chartQuestions
    } 
    private questionToChartQuestion(question:Question){
@@ -61,7 +67,7 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
      let chartQuestion = new ChartQuestion(hour, day); 
      return chartQuestion;  
    }
- 
+
   public createStackedBarData(chartQuestions, isToggled) {
      let source = chartQuestions;
      let category = {};
@@ -71,20 +77,22 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
        if (category[row.day] == undefined) {
          category[row.day] = {
            category: row.day         
-         };
+         }
          data.push(category[row.day]);
        }
         category[row.day][source[i].hour] = row['count'];           
       }  
-      if(!isToggled)
-     return data;
+      if(!isToggled){
+        console.log(data)
+        return data;
+      }
+      
      else{
-      return this.getTopFiveHoursData(data);
+      return this.getTopFiveHoursOfTheDay(data);
      }
    }
    public createPieChartData(chartQuestions) {
      let source = chartQuestions;
-     console.log(source);
      let category = {};
      let data = [];
      for(let i = 0; i < source.length; i++) {    
@@ -98,6 +106,7 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
        }
        category[row.day]['value'] = category[row.day]['value'] + source[i].count;
      }
+     console.log(data);
      return data;
    }
   public createStackedBarSeriesData(chartQuestions:ChartQuestion[], isToggled){
@@ -115,7 +124,8 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
     seriesData.sort();
     return seriesData;
    }
-   private getTopFiveHoursData(stackedBarData){
+
+   private getTopFiveHoursOfTheDay(stackedBarData){
      let source = stackedBarData;
      let data = [];
      for(let i = 0; i < source.length; i++) {    
@@ -125,7 +135,7 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
      }
      return data;
    }
-   //function gets category row and number of top values;
+   //function gets category row and number of top values and returns the row ordered by count per hour and others;
     private sortRowValues(row, topValuesNumber:number){
 
       let category = row["category"]

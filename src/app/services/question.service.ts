@@ -49,7 +49,6 @@ export class QuestionService  {
             catchError(this.handleError)           
             );
       }
-
       private handleError(res:any) {
         let err = res.error.message;
         return throwError(err);
