@@ -68,6 +68,32 @@ public filterQuestionsByDate(questions:Question[], dateRange:Date[]){
      return chartQuestion;  
    }
 
+   //return top 5 hours of the weeek by hour count and question count
+   private getTopFiveHoursOfTheWeek(chartQuestions:ChartQuestion[]){
+      let source = chartQuestions;
+      let category = {};
+      let data = [];
+      for (let i = 0; i < source.length; i++) {
+        let row = source[i];
+        if(category[row.hour] == undefined){
+          category[row.hour] = {
+            category: row.hour,
+            hourCount: 0,
+            questionCount: 0        
+          }          
+          data.push(category[row.hour]);
+          
+        }
+        category[row.hour]['hourCount'] = category[row.hour]['hourCount']+1;
+        category[row.hour]['questionCount'] = category[row.hour]['questionCount']+ source[i].count;        
+      }
+      data.sort((a,b)=> (a.hourCount > b.hourCount)?-1: (a.hourCount === b.hourCount)?
+      ((a.questionCount > b.questionCount)?-1: 1): 1);
+      data = data.slice(0,5);     
+      console.log(data);
+      return data;
+   }
+ 
   public createStackedBarData(chartQuestions, isToggled) {
      let source = chartQuestions;
      let category = {};
