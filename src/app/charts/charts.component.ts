@@ -1,6 +1,4 @@
-
 import { Component, OnDestroy, OnInit, SimpleChange } from '@angular/core';
-import { Question } from '../questions/models/question.model';
 import { QuestionService } from '../services/question.service';
 import { ChartService } from './services/chart.service';
 

@@ -7,10 +7,15 @@ import { UserService } from '../services/user.service';
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent implements OnInit {
+  isLogged:boolean;
 
   constructor( public userService:UserService) { }
 
   ngOnInit(): void {
+    this.userService.isLogged.subscribe(bool=> this.isLogged = bool);
+  }
+  logOut(){
+    this.userService.logOut();
   }
 
 }

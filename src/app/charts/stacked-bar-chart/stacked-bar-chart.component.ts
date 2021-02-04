@@ -76,15 +76,16 @@ export class StackedBarChartComponent implements OnInit {
         // Configure columns
         series.columns.template.width = am4core.percent(60);
         series.columns.template.tooltipHTML = `
-  <center><strong>{categoryX}</strong></center>
+  <div class="tooltip-header">{categoryX}</div>
   <hr>
   <table >
     <tr>
-      <th align="left" style="color:orange">{name}</th>
-      <td style="padding-left: 4em">{valueY} Questions</td>
-    </tr>
+      <th class="tooltip-body">{name}</th>
+      <td class="tooltip-body">{valueY} Questions</td>     
+    </tr>   
   </table>  
   `
+
         // Add label
         let labelBullet = series.bullets.push(new am4charts.LabelBullet());
         labelBullet.label.text = "{valueY}";

@@ -1,1 +1,14 @@
 /* You can add global styles to this file, and also import other style files */
+.tooltip-header{
+    font-weight: bold;
+    text-align: center;
+}
+
+th.tooltip-body{
+    text-align: left;
+    color: orange;
+}
+td.tooltip-body{
+    padding-left: 4em;
+}
+

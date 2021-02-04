@@ -1,6 +1,6 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
-import { Observable, Subject, throwError } from 'rxjs';
+import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
 import { User } from '../users/models/user.model';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
@@ -10,7 +10,7 @@ import { Router } from '@angular/router';
 })
 export class UserService {
 baseUrl = "http://localhost:3000/auth";
-
+isLogged = new BehaviorSubject<boolean>(false);
 
   constructor(private http:HttpClient, private router:Router ) { 
 
@@ -39,12 +39,14 @@ baseUrl = "http://localhost:3000/auth";
     );    
   }
   loggedIn(){
+    this.isLogged.next(!!localStorage.getItem('userToken'));
     return !!localStorage.getItem('userToken');
   }
   getToken(){
     return localStorage.getItem('userToken');
   }
   logOut(){
+    this.isLogged.next(false);
      localStorage.clear();
      this.router.navigate(['/']);
   }

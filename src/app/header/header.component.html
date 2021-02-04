@@ -1,9 +1,14 @@
- <ul class="flex-container" routerLinkActive="active">
-    <li *ngIf="userService.loggedIn()"><a  routerLink="questions">Question Manager</a></li>
-    <li *ngIf="userService.loggedIn()"><a  routerLink="graphs">Graphs</a></li>  
-    <li *ngIf="!userService.loggedIn()" ><a  routerLink="">Login</a></li>
-    <li *ngIf="!userService.loggedIn()" ><a  routerLink="register">Register</a></li>   
-    <li *ngIf="userService.loggedIn()"><a  (click)="userService.logOut()">Logout</a></li>   
+<ul class="flex-container" routerLinkActive="active">
+    <li *ngIf="isLogged" class="row-link">
+        <a  routerLink="questions">Question Manager</a>
+        <a  routerLink="graphs">Graphs</a>
+        <a  (click)="logOut()">Logout</a>
+    </li>
+    <li *ngIf="!isLogged" class="row-link" >
+        <a  routerLink="">Login</a>
+        <a  routerLink="register">Register</a>
+    </li>
 </ul>
+    
     
     
