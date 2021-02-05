@@ -10,10 +10,9 @@ export class DatePickerComponent {
   date = null;
 
 
-constructor(private chartService:ChartService) {}
+  constructor(private chartService: ChartService) { }
 
   onChange(result: Date[]): void {
-    console.log('onChange: ', result);
     this.chartService.selectedDates.next(result);
   }
 }

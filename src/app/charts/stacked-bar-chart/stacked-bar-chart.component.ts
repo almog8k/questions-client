@@ -15,7 +15,7 @@ import { ChartService } from '../services/chart.service';
 export class StackedBarChartComponent implements OnInit {
   @Input("data") data: any;
   @Input("seriesData") seriesData: string[];
-  
+
   private chart: am4charts.XYChart;
   constructor(@Inject(PLATFORM_ID) private platformId, private zone: NgZone, private chartsService: ChartService) { }
 
@@ -106,10 +106,10 @@ export class StackedBarChartComponent implements OnInit {
   ngOnChanges(changes: SimpleChange) {
     let data = changes['data'].currentValue;
     let seriesData = changes['seriesData'].currentValue;
-    if(data && seriesData){
+    if (data && seriesData) {
       this.createChart();
     }
-  }  
+  }
   ngOnDestroy() {
     // Clean up chart when the component is removed
     this.browserOnly(() => {

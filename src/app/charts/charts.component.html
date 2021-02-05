@@ -1,20 +1,13 @@
 <div>
     <app-date-picker></app-date-picker>
-    <nz-switch nzCheckedChildren="Top 5" nzUnCheckedChildren="Top 5" [(ngModel)]="switchValue" (ngModelChange)="onToggleChange($event)"></nz-switch>
+    <nz-switch nzCheckedChildren="Top 5" nzUnCheckedChildren="Top 5" [(ngModel)]="toggleValue"
+        (ngModelChange)="onToggleChange($event)"></nz-switch>
 </div>
-    <div  *ngIf="!noResults;" >
-        <h1>Stacked Bar Chart</h1>
-        <app-stacked-bar-chart [data]="stackedBarData" [seriesData] ="seriesStackedBarData"></app-stacked-bar-chart>
-        <app-pie-chart [data]="pieChartData" ></app-pie-chart>
-    </div>
-    <div *ngIf="noResults;">
-        <h1>No Results</h1>
-    </div>
-   
-
-
-
-
-
-
-
+<div *ngIf="!noResults;">
+    <h1>Stacked Bar Chart</h1>
+    <app-stacked-bar-chart [data]="stackedBarData" [seriesData]="seriesStackedBarData"></app-stacked-bar-chart>
+    <app-pie-chart [data]="pieChartData"></app-pie-chart>
+</div>
+<div *ngIf="noResults;">
+    <h1>No Results</h1>
+</div>

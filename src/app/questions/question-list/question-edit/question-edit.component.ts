@@ -11,25 +11,21 @@ import { SideBarType } from '../../enums/sidebar.enum';
   styleUrls: ['./question-edit.component.css']
 })
 export class QuestionEditComponent implements OnInit {
-@Input() question:Question;
-@ViewChild('f') editForm:NgForm
-  constructor(private questionService:QuestionService ) { }
+  @Input() question: Question;
+  @ViewChild('f') editForm: NgForm
+  constructor(private questionService: QuestionService) { }
 
   ngOnInit(): void {
 
   }
-  onEditQuestion(form: NgForm){
-    let updatedQuestion = form.value;    
-    this.question.name =  updatedQuestion.name;
+  onEditQuestion(form: NgForm) {
+    let updatedQuestion = form.value;
+    this.question.name = updatedQuestion.name;
     this.question.description = updatedQuestion.description;
-    this.questionService.editQuestion(this.question).subscribe(
-      ()=>{
-       this.questionService.questionsChanged.next();
-      } 
-    );
-   }  
-onClose(){
-  this.questionService.selectedSideBar.next(SideBarType.None);
-}
+    this.questionService.editQuestion(this.question).subscribe();
+  }
+  onClose() {
+    this.questionService.selectedSideBar.next(SideBarType.None);
+  }
 }
 

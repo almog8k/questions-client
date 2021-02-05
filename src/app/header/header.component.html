@@ -1,14 +1,11 @@
 <ul class="flex-container" routerLinkActive="active">
     <li *ngIf="isLogged" class="row-link">
-        <a  routerLink="questions">Question Manager</a>
-        <a  routerLink="graphs">Graphs</a>
-        <a  (click)="logOut()">Logout</a>
+        <a routerLink="questions">Question Manager</a>
+        <a routerLink="graphs">Graphs</a>
+        <a (click)="logOut()">Logout</a>
     </li>
-    <li *ngIf="!isLogged" class="row-link" >
-        <a  routerLink="">Login</a>
-        <a  routerLink="register">Register</a>
+    <li *ngIf="!isLogged" class="row-link">
+        <a routerLink="/">Login</a>
+        <a routerLink="register">Register</a>
     </li>
 </ul>
-    
-    
-    

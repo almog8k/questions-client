@@ -15,7 +15,7 @@ export class ChartService {
   toggleSeriesData: string[] = [];
   constructor(private datePipe: DatePipe) { }
 
-//filter questions data by given date
+  //filter questions data by given date
   public filterQuestionsByDate(questions: Question[], dateRange: Date[]) {
     let filteredQuestions = [];
     let dateFrom = dateRange[0];
@@ -38,7 +38,7 @@ export class ChartService {
     return filteredQuestions;
   }
 
-// create global charts data 
+  // create global charts data 
   public getChartQuestions(questions: Question[]) {
     let chartQuestions = []
     questions.forEach(question => {
@@ -67,7 +67,7 @@ export class ChartService {
     return chartQuestion;
   }
 
-//create stackedBar data by the stackedBar data patern
+  //create stackedBar data by the stackedBar data patern
   public createStackedBarData(chartQuestions, isToggled) {
     let source = chartQuestions;
     let category = {};
@@ -92,17 +92,17 @@ export class ChartService {
   //creates the series stackedBarData
   public createStackedBarSeriesData(chartQuestions: ChartQuestion[], isToggled) {
     let seriesData = []
-    if(!isToggled){
+    if (!isToggled) {
       chartQuestions.forEach(chartQuestion => {
         if (!(seriesData.includes(chartQuestion.hour))) {
           seriesData.push(chartQuestion.hour);
         }
       });
-    }else{
+    } else {
       seriesData = this.toggleSeriesData;
       seriesData.push("others");
       this.toggleSeriesData = [];
-    } 
+    }
     seriesData.sort();
     return seriesData;
   }

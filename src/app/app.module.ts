@@ -1,6 +1,6 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-import {HttpClientModule, HttpInterceptor, HTTP_INTERCEPTORS} from '@angular/common/http'
+import { HttpClientModule, HttpInterceptor, HTTP_INTERCEPTORS } from '@angular/common/http'
 import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalModule } from 'ng-zorro-antd/modal';
@@ -17,7 +17,7 @@ import { UserLoginComponent } from './users/user-login/user-login.component';
 import { QuestionEditComponent } from './questions/question-list/question-edit/question-edit.component';
 import { QuestionCreateComponent } from './questions/question-list/question-create/question-create.component';
 import { FormsModule } from '@angular/forms';
-import {QuestionService} from './services/question.service';
+import { QuestionService } from './services/question.service';
 import { SearchFilterPipe } from './questions/pipes/search-filter.pipe';
 import { NZ_I18N } from 'ng-zorro-antd/i18n';
 import { en_US } from 'ng-zorro-antd/i18n';
@@ -38,6 +38,8 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { QuestionIdPipe } from './questions/pipes/question-id.pipe';
 import { DatePickerComponent } from './charts/date-picker/date-picker.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+
+
 
 
 registerLocaleData(en);
@@ -79,10 +81,11 @@ registerLocaleData(en);
   providers: [
     QuestionService,
     UserService,
-     AuthGuard, 
-     DatePipe ,
-     { provide: NZ_I18N, useValue: en_US },
-     {provide: HTTP_INTERCEPTORS,
+    AuthGuard,
+    DatePipe,
+    { provide: NZ_I18N, useValue: en_US },
+    {
+      provide: HTTP_INTERCEPTORS,
       useClass: TokenInterceptorService,
       multi: true
     }
