@@ -1,4 +1,4 @@
-<div >
+<div>
     <div>
         <h1>
             Create!
@@ -8,46 +8,30 @@
         <form (ngSubmit)="onAddQuestion(f)" #f="ngForm">
             <div>
                 <h3>Question Name:</h3>
-                <input 
-                class="form-control"
-                 type="text"                 
-                 name="name"
-                 ngModel
-                 required
-                 maxlength="20"
-                 #name="ngModel"
-                 > 
-                 <div *ngIf="name.invalid && (name.dirty || name.touched)"
-                    class="validation">
+                <input class="form-control" type="text" name="name" ngModel required maxlength="20" #name="ngModel">
+                <div *ngIf="name.invalid && (name.dirty || name.touched)" class="validation">
                     <div *ngIf="name.errors.required">
                         *Name is required.
-                     </div>
+                    </div>
                 </div>
-            </div>        
+            </div>
             <div>
                 <h3>Question description</h3>
-                 <textarea
-                 class="form control description-box" 
-                 type="text"
-                 name="description"
-                 ngModel 
-                 required  
-                 #description="ngModel"               
-                 >
+                <textarea class="form control description-box" type="text" name="description" ngModel required
+                    #description="ngModel">
                 </textarea>
-                <div *ngIf="description.invalid && (description.dirty || description.touched)"
-                class="validation">
-                <div *ngIf="description.errors.required">
-                  *Description is required.
-                 </div>
+                <div *ngIf="description.invalid && (description.dirty || description.touched)" class="validation">
+                    <div *ngIf="description.errors.required">
+                        *Description is required.
+                    </div>
+                </div>
             </div>
-            </div> 
-            <div >
-                      
-                <button type="submit" class="btn" [disabled]="!f.valid" >Create Question</button>
-                <button type="button" class="btn" (click)="onCancel()">Cancel</button>  
+            <div>
+
+                <button type="submit" class="btn" [disabled]="!f.valid">Create Question</button>
+                <button type="button" class="btn" (click)="onCancel()">Cancel</button>
             </div>
-        </form>       
+        </form>
     </div>
 </div>
 <div class="jw-modal-background"></div>

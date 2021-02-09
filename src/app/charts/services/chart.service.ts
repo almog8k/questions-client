@@ -16,7 +16,7 @@ export class ChartService {
   constructor(private datePipe: DatePipe) { }
 
   //filter questions data by given date
-  public filterQuestionsByDate(questions: Question[], dateRange: Date[]) {
+  public filterQuestionsByDate(questions: Question[], dateRange: Date[]): Question[] {
     let filteredQuestions = [];
     let dateFrom = dateRange[0];
     let dateTo = dateRange[1];
@@ -39,7 +39,7 @@ export class ChartService {
   }
 
   // create global charts data 
-  public getChartQuestions(questions: Question[]) {
+  public getChartQuestions(questions: Question[]): ChartQuestion[] {
     let chartQuestions = []
     questions.forEach(question => {
       let chartQuestion = this.questionToChartQuestion(question);
@@ -59,7 +59,7 @@ export class ChartService {
     return chartQuestions
   }
 
-  private questionToChartQuestion(question: Question) {
+  private questionToChartQuestion(question: Question): ChartQuestion {
     let date = new Date(question.creationDate);
     let day = this.datePipe.transform(date, 'EEEE');
     let hour = this.datePipe.transform(date, 'HH:00')
@@ -68,7 +68,7 @@ export class ChartService {
   }
 
   //create stackedBar data by the stackedBar data patern
-  public createStackedBarData(chartQuestions, isToggled) {
+  public createStackedBarData(chartQuestions: ChartQuestion[], isToggled: boolean) {
     let source = chartQuestions;
     let category = {};
     let data = [];
@@ -90,7 +90,7 @@ export class ChartService {
     }
   }
   //creates the series stackedBarData
-  public createStackedBarSeriesData(chartQuestions: ChartQuestion[], isToggled) {
+  public createStackedBarSeriesData(chartQuestions: ChartQuestion[], isToggled: boolean): string[] {
     let seriesData = []
     if (!isToggled) {
       chartQuestions.forEach(chartQuestion => {
@@ -135,7 +135,7 @@ export class ChartService {
     return popularHours;
   }
   //creates top 5 hours stackedBar data patern
-  private getPopularHoursData(stackedBarData, topFiveHours) {
+  private getPopularHoursData(stackedBarData, topFiveHours: string[]) {
     let source = stackedBarData;
     let popularHours = topFiveHours;
     let data = [];
@@ -176,7 +176,7 @@ export class ChartService {
   }
 
   //creates the pieChart data to fit the pieChart patern
-  public createPieChartData(chartQuestions) {
+  public createPieChartData(chartQuestions: ChartQuestion[]) {
     let source = chartQuestions;
     let category = {};
     let data = [];

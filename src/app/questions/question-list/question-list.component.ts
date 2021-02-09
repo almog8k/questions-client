@@ -52,7 +52,7 @@ export class QuestionListComponent implements OnInit {
   }
 
   sortBy(option: String) {
-    console.log(option);
+    console.log(option.valueOf());
     switch (option) {
       case "Name":
         this.questions.sort((a, b) => a.name.localeCompare(b.name))

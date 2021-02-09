@@ -9,49 +9,50 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class UserService {
-baseUrl = "http://localhost:3000/auth";
-isLogged = new BehaviorSubject<boolean>(false);
+  baseUrl = "http://localhost:3000/auth";
+  isLogged = new BehaviorSubject<boolean>(false);
 
-  constructor(private http:HttpClient, private router:Router ) { 
+  constructor(private http: HttpClient, private router: Router) {
 
   }
-  loginUser(user:User){
-    return this.http.post<any>(`${this.baseUrl}/login`, user,{
+  loginUser(user: User) {
+    return this.http.post<any>(`${this.baseUrl}/login`, user, {
     }).pipe(
       map((res) => {
         alert(res.message);
-        if(res && res.token){
-                localStorage.setItem('userToken', res.token);
-                localStorage.setItem('userName', res.user.username);
-                this.router.navigate(['/questions']);
-      }}),
-      catchError(this.handleError)          
-    );    
+        if (res && res.token) {
+          localStorage.setItem('userToken', res.token);
+          localStorage.setItem('userName', res.user.username);
+          this.router.navigate(['/questions']);
+        }
+      }),
+      catchError(this.handleError)
+    );
   }
-  registerUser(user:User){
-    return this.http.post<any>(`${this.baseUrl}/register`, user,{
+  registerUser(user: User) {
+    return this.http.post<any>(`${this.baseUrl}/register`, user, {
     }).pipe(
       map((res) => {
         alert(res.message);
         this.router.navigate(["/"])
       }),
-      catchError(this.handleError)          
-    );    
+      catchError(this.handleError)
+    );
   }
-  loggedIn(){
+  loggedIn() {
     this.isLogged.next(!!localStorage.getItem('userToken'));
     return !!localStorage.getItem('userToken');
   }
-  getToken(){
+  getToken() {
     return localStorage.getItem('userToken');
   }
-  logOut(){
+  logOut() {
     this.isLogged.next(false);
-     localStorage.clear();
-     this.router.navigate(['/']);
+    localStorage.clear();
+    this.router.navigate(['/']);
   }
 
-  private handleError(res:any) {
+  private handleError(res: any) {
     let err = res.error.message;
     alert(err);
     return throwError(err);

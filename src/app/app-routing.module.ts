@@ -8,19 +8,28 @@ import { UsersComponent } from './users/users.component';
 
 const routes: Routes = [
   { path: '', component: UsersComponent },
-  { path: 'questions', 
+  {
+    path: 'questions',
     component: QuestionsComponent,
     canActivate: [AuthGuard]
-   },
-   { path: 'graphs', 
-   component: ChartsComponent,
-   canActivate: [AuthGuard]
   },
-  { path: 'register', 
-  component: UserRegisterComponent
- }
+  {
+    path: 'graphs',
+    component: ChartsComponent,
+    canActivate: [AuthGuard]
+  },
+  {
+    path: 'register',
+    component: UserRegisterComponent
+  },
+  {
+    path: '**',
+    component: QuestionsComponent,
+    canActivate: [AuthGuard]
+  }
 
- 
+
+
 ];
 
 @NgModule({

@@ -39,6 +39,7 @@ export class StackedBarChartComponent implements OnInit {
     // Chart code goes in here
     this.browserOnly(() => {
       am4core.useTheme(am4themes_animated);
+      am4core.options.autoDispose = true;
       // Themes end
 
       // Create chart instance
