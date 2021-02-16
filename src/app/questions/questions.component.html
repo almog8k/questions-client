@@ -1,14 +1,14 @@
-<div >
-   <h1>Questions Manager</h1>
-    <div class="flex-box" > 
+<div>
+    <h1>Questions Manager</h1>
+    <div class="flex-box">
         <div>
             <app-question-list></app-question-list>
-        </div>            
-         <div class="side-bar" *ngIf="toggleBtn" >
-            <app-question-detail *ngIf="toggleBtn===sidebarType.Details;" [question]="selectedQuestion"></app-question-detail>
-            <app-question-edit *ngIf="toggleBtn===sidebarType.Edit" [question]="selectedQuestion"></app-question-edit>
-            <app-question-create *ngIf="toggleBtn===sidebarType.Create;"></app-question-create>        
-        </div>            
-</div>
-<div [ngClass]="{'blanket': toggleBtn}"></div>
-
+        </div>
+        <div class="side-bar" *ngIf="sideBar">
+            <app-question-detail *ngIf="sideBar===sidebarType.Details;" [question]="selectedQuestion">
+            </app-question-detail>
+            <app-question-edit *ngIf="sideBar===sidebarType.Edit" [question]="selectedQuestion"></app-question-edit>
+            <app-question-create *ngIf="sideBar===sidebarType.Create;"></app-question-create>
+        </div>
+    </div>
+    <div [ngClass]="{'blanket': sideBar}"></div>

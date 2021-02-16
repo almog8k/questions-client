@@ -1,7 +1,9 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { QuestionService } from 'src/app/services/question.service';
 import { SideBarType } from '../../enums/sidebar.enum';
 import { Question } from '../../models/question.model';
+import { Store } from '@ngrx/store';
+import * as QuestionsListActions from '../store/questions-list.actions';
+import * as fromApp from '../../../store/app.reducer'
 
 @Component({
   selector: 'app-question-detail',
@@ -9,12 +11,12 @@ import { Question } from '../../models/question.model';
   styleUrls: ['./question-detail.component.css']
 })
 export class QuestionDetailComponent implements OnInit {
-@Input() question:Question;
-  constructor(private questionService: QuestionService) { }
+  @Input() question: Question;
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
   }
-  onCancel(){
-    this.questionService.selectedSideBar.next(SideBarType.None);
+  onCancel() {
+    this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.None));
   }
 }

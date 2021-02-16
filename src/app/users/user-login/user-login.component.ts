@@ -1,8 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { Router } from '@angular/router';
-import { UserService } from 'src/app/services/user.service';
-import {User} from '../models/user.model'
+import { UserService } from 'src/app/auth/user.service';
+
 
 @Component({
   selector: 'app-user-login',
@@ -11,15 +10,15 @@ import {User} from '../models/user.model'
 })
 export class UserLoginComponent implements OnInit {
 
-  constructor(private userService:UserService) { }
+  constructor(private userService: UserService) { }
 
   ngOnInit(): void {
   }
 
-  onLogin(form: NgForm){
+  onLogin(form: NgForm) {
     let formUser = form.value;
-    const user = new User(formUser.username, formUser.password);
+    const user = { username: formUser.username, password: formUser.password, id: "" };
     this.userService.loginUser(user).subscribe()
-      form.reset();
-   }
+    form.reset();
+  }
 }

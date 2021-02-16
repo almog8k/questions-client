@@ -3,6 +3,10 @@ import { Question } from 'src/app/questions/models/question.model';
 import { QuestionService } from 'src/app/services/question.service';
 import { NgForm } from '@angular/forms';
 import { SideBarType } from '../../enums/sidebar.enum';
+import { Store } from '@ngrx/store';
+import * as fromQuestionsList from '../store/questions-list.reducer';
+import * as QuestionsListActions from '../store/questions-list.actions';
+import * as fromApp from '../../../store/app.reducer'
 
 
 @Component({
@@ -13,19 +17,20 @@ import { SideBarType } from '../../enums/sidebar.enum';
 export class QuestionEditComponent implements OnInit {
   @Input() question: Question;
   @ViewChild('f') editForm: NgForm
-  constructor(private questionService: QuestionService) { }
+  constructor(private questionService: QuestionService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
 
   }
   onEditQuestion(form: NgForm) {
-    let updatedQuestion = form.value;
-    this.question.name = updatedQuestion.name;
-    this.question.description = updatedQuestion.description;
-    this.questionService.editQuestion(this.question).subscribe();
+    console.log(this.question);
+    let creationDate = this.question.creationDate
+    let questionId = this.question.id;
+    let updatedQuestion = { id: questionId, name: form.value.name, description: form.value.description, creationDate: creationDate }
+    this.questionService.editQuestion(updatedQuestion).subscribe();
   }
   onClose() {
-    this.questionService.selectedSideBar.next(SideBarType.None);
+    this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.None));
   }
 }
 

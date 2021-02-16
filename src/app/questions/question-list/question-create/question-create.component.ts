@@ -1,8 +1,11 @@
-import { Component, OnInit, ElementRef, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { QuestionService } from 'src/app/services/question.service';
 import { SideBarType } from '../../enums/sidebar.enum';
 import { Question } from '../../models/question.model';
+import { Store } from '@ngrx/store';
+import * as QuestionsListActions from '../store/questions-list.actions';
+import * as fromApp from '../../../store/app.reducer'
 
 @Component({
   selector: 'app-question-create',
@@ -12,7 +15,7 @@ import { Question } from '../../models/question.model';
 export class QuestionCreateComponent implements OnInit {
 
 
-  constructor(private questionService: QuestionService) { }
+  constructor(private questionService: QuestionService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
 
@@ -25,6 +28,6 @@ export class QuestionCreateComponent implements OnInit {
     form.reset();
   }
   onCancel() {
-    this.questionService.selectedSideBar.next(SideBarType.None);
+    this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.None));
   }
 }

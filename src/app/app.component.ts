@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { UserService } from './services/user.service';
+
 
 @Component({
   selector: 'app-root',
@@ -7,13 +7,13 @@ import { UserService } from './services/user.service';
   styleUrls: ['./app.component.css']
 })
 export class AppComponent {
-  isMenuBarCollapsed : boolean = true; ;
+  isMenuBarCollapsed: boolean = true;;
 
   constructor() { }
 
   ngOnInit(): void {
-    
-}
+
+  }
 
 }
 

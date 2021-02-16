@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { EventEmitter, Injectable } from '@angular/core';
 import { BehaviorSubject, Observable, Subject, throwError } from 'rxjs';
-import { User } from '../users/models/user.model';
+import { IUser } from '../users/models/user.model';
 import { map, catchError } from 'rxjs/operators';
 import { Router } from '@angular/router';
 
@@ -15,7 +15,7 @@ export class UserService {
   constructor(private http: HttpClient, private router: Router) {
 
   }
-  loginUser(user: User) {
+  loginUser(user: IUser) {
     return this.http.post<any>(`${this.baseUrl}/login`, user, {
     }).pipe(
       map((res) => {
@@ -29,7 +29,7 @@ export class UserService {
       catchError(this.handleError)
     );
   }
-  registerUser(user: User) {
+  registerUser(user: IUser) {
     return this.http.post<any>(`${this.baseUrl}/register`, user, {
     }).pipe(
       map((res) => {

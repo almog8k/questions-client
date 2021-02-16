@@ -5,6 +5,7 @@ import { BehaviorSubject } from 'rxjs';
 import { Question } from 'src/app/questions/models/question.model';
 import { ChartQuestion } from '../models/chart-question.model';
 
+
 @Injectable({
   providedIn: 'root'
 })
@@ -14,6 +15,7 @@ export class ChartService {
   noResults = new BehaviorSubject(false);
   toggleSeriesData: string[] = [];
   constructor(private datePipe: DatePipe) { }
+
 
   //filter questions data by given date
   public filterQuestionsByDate(questions: Question[], dateRange: Date[]): Question[] {
@@ -59,11 +61,17 @@ export class ChartService {
     return chartQuestions
   }
 
+  // public createTreeData(questions: Question[]): Tree {
+  //   let tree = new Tree("Months");
+  //   return tree;
+  // }
+
   private questionToChartQuestion(question: Question): ChartQuestion {
     let date = new Date(question.creationDate);
     let day = this.datePipe.transform(date, 'EEEE');
     let hour = this.datePipe.transform(date, 'HH:00')
-    let chartQuestion = new ChartQuestion(hour, day);
+    let month = this.datePipe.transform(date, 'MMMM')
+    let chartQuestion = new ChartQuestion(hour, day, month);
     return chartQuestion;
   }
 
@@ -82,12 +90,11 @@ export class ChartService {
       }
       category[row.day][source[i].hour] = row['count'];
     }
-    if (!isToggled) {
-      return data;
-    } else {
+    if (isToggled) {
       let topFiveHours = this.getWeekPopularHours(source);
-      return this.getPopularHoursData(data, topFiveHours);
+      data = this.getPopularHoursData(data, topFiveHours);
     }
+    return data;
   }
   //creates the series stackedBarData
   public createStackedBarSeriesData(chartQuestions: ChartQuestion[], isToggled: boolean): string[] {
@@ -128,10 +135,8 @@ export class ChartService {
     data.sort((a, b) => (a.hourCount > b.hourCount) ? -1 : (a.hourCount === b.hourCount) ?
       ((a.questionCount > b.questionCount) ? -1 : 1) : 1);
     data = data.slice(0, 5);
-    let popularHours = data.map(x => {
-      return x.category;
-    })
-
+    let popularHours = data.map(x => x.category);
+    console.log(popularHours);
     return popularHours;
   }
   //creates top 5 hours stackedBar data patern
@@ -167,7 +172,7 @@ export class ChartService {
         newRow[hour[0]] = hour[1];
       }
       else {
-        othersSum = othersSum + hour[1];
+        othersSum += hour[1];
       }
     }
     newRow["others"] = othersSum;

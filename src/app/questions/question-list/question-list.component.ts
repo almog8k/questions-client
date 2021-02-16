@@ -1,8 +1,10 @@
 import { Component, OnInit, SimpleChange } from '@angular/core';
 import { Question } from '../models/question.model';
 import { QuestionService } from 'src/app/services/question.service';
-import { SideBarType } from '../enums/sidebar.enum'
-import { BehaviorSubject } from 'rxjs';
+import { SideBarType } from '../enums/sidebar.enum';
+import { Store } from '@ngrx/store';
+import * as QuestionsListActions from './store/questions-list.actions';
+import * as fromApp from '../../store/app.reducer';
 
 @Component({
   selector: 'app-question-list',
@@ -15,40 +17,43 @@ export class QuestionListComponent implements OnInit {
   tableHeaders = ['Id', 'Name', 'Date', ''];
   selectOptions = ["Name", 'Date'];
   questions: Question[];
-  questionss = new BehaviorSubject<Question[]>([]);
-  selecteOption: Question;
   searchText: string = '';
   popIsVisible = false;
   displayedPopQuestion: Question;
 
-  constructor(private questionService: QuestionService) { }
+  constructor(private questionService: QuestionService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
     this.questionService.getQuestions().subscribe();
-    this.questionService.questions.subscribe(
-      data => {
-        this.questions = data;
-      })
+    this.store.select('questionsList').subscribe(
+      stateData => this.questions = stateData["questions"]
+    )
+    // this.store.select('questionsList').subscribe();
+    // this.questionService.questions.subscribe(
+    //   data => {
+    //     this.questions = data;
+    //   })
   }
 
   onSelectedDetails(questionEl: Question) {
-    this.getSelectedQuestion(questionEl);
-    this.questionService.selectedSideBar.next(SideBarType.Details);
+    this.setSelectedQuestion(questionEl);
+    this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.Details))
+    // this.questionService.selectedSideBar.next(SideBarType.Details);
 
   }
   onSelectedEdit(questionEl: Question) {
-    this.getSelectedQuestion(questionEl);
-    this.questionService.selectedSideBar.next(SideBarType.Edit);
+    this.setSelectedQuestion(questionEl);
+    this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.Edit))
+    // this.questionService.selectedSideBar.next(SideBarType.Edit);
   }
   onSelectedCreate() {
-    this.questionService.selectedSideBar.next(SideBarType.Create);
+    this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.Create))
+    // this.questionService.selectedSideBar.next(SideBarType.Create);
   }
 
-  getSelectedQuestion(question: Question) {
-    this.questionService.selectedQuestion.next(question);
-  }
-  onDeletedQuestion(questionId: string) {
-    this.questionService.deleteQuestion(questionId).subscribe();
+  setSelectedQuestion(question: Question) {
+    // this.questionService.selectedQuestion.next(question);
+    this.store.dispatch(new QuestionsListActions.SetSelectedQuestion(question));
   }
 
   sortBy(option: String) {
@@ -73,7 +78,9 @@ export class QuestionListComponent implements OnInit {
     this.popIsVisible = false;
     this.onDeletedQuestion(this.displayedPopQuestion.id);
   }
-
+  onDeletedQuestion(questionId: string) {
+    this.questionService.deleteQuestion(questionId).subscribe();
+  }
   handleCancel(): void {
     this.popIsVisible = false;
   }

@@ -1,7 +1,10 @@
 import { Component, OnDestroy, OnInit, SimpleChange } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { Question } from '../questions/models/question.model';
 import { QuestionService } from '../services/question.service';
 import { ChartService } from './services/chart.service';
+import * as fromApp from '../store/app.reducer'
+
 
 @Component({
   selector: 'app-charts',
@@ -15,9 +18,11 @@ export class ChartsComponent implements OnInit, OnDestroy {
   seriesStackedBarData: string[] = [];
   toggleValue = false;
   noResults: boolean = false;
-  constructor(private questionService: QuestionService, private chartsService: ChartService) {
-
-  }
+  constructor(
+    private questionService: QuestionService,
+    private chartsService: ChartService,
+    private store: Store<fromApp.AppState>
+  ) { }
 
 
   ngOnInit(): void {
@@ -25,9 +30,9 @@ export class ChartsComponent implements OnInit, OnDestroy {
   }
 
   createChartsData() {
-    this.questionService.questions.subscribe(
-      data => {
-        let questions = data;
+    this.store.select("questionsList").subscribe(
+      stateData => {
+        let questions = stateData["questions"];
         this.chartsService.selectedDates.subscribe(
           dateRange => {
             this.chartsService.popularToggle.subscribe(

@@ -5,6 +5,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { StoreModule } from '@ngrx/store'
 
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,9 +29,9 @@ import { IconsProviderModule } from './icons-provider.module';
 import { NzLayoutModule } from 'ng-zorro-antd/layout';
 import { NzMenuModule } from 'ng-zorro-antd/menu';
 import { HeaderComponent } from './header/header.component'
-import { AuthGuard } from './auth.guard';
-import { TokenInterceptorService } from './services/token-interceptor.service';
-import { UserService } from './services/user.service';
+import { AuthGuard } from './auth/auth.guard';
+import { TokenInterceptorService } from './auth/token-interceptor.service';
+import { UserService } from './auth/user.service';
 import { UserRegisterComponent } from './users/user-register/user-register.component';
 import { ChartsComponent } from './charts/charts.component';
 import { StackedBarChartComponent } from './charts/stacked-bar-chart/stacked-bar-chart.component';
@@ -38,6 +39,8 @@ import { PieChartComponent } from './charts/pie-chart/pie-chart.component';
 import { QuestionIdPipe } from './questions/pipes/question-id.pipe';
 import { DatePickerComponent } from './charts/date-picker/date-picker.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
+import { TreeComponent } from './charts/tree/tree.component';
+import * as fromApp from './store/app.reducer'
 
 
 
@@ -61,13 +64,15 @@ registerLocaleData(en);
     ChartsComponent,
     StackedBarChartComponent,
     QuestionIdPipe,
-    DatePickerComponent
+    DatePickerComponent,
+    TreeComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
+    StoreModule.forRoot(fromApp.appReducer),
     NzButtonModule,
     BrowserAnimationsModule,
     IconsProviderModule,
