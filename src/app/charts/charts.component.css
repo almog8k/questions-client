@@ -2,6 +2,9 @@ h1{
     text-align: center;
 }
 .chart-control{
+    display: flex;
     padding-top: 10px;
     padding-left: 10px;
+    flex-direction: row;
+    align-content:space-between;
 }

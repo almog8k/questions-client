@@ -23,7 +23,7 @@
         {{column}}
       </th>
 
-      <tr *ngFor="let questionEl of questions | searchFilter: searchText ">
+      <tr *ngFor="let questionEl of (questions | searchFilter: searchText | questionsSort: option)">
         <td class="id-td" [innerHTML]="questionEl.id | questionIdPipe">
 
         </td>

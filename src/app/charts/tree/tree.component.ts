@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ITreeNode } from './treeModel/inode';
 
 @Component({
   selector: 'app-tree',
@@ -7,9 +8,21 @@ import { Component, OnInit } from '@angular/core';
 })
 export class TreeComponent implements OnInit {
 
+  @Input() data: ITreeNode[];
   constructor() { }
 
   ngOnInit(): void {
+
+
+  }
+
+
+  onExpand(node) {
+    let flag = false;
+    if (node.expendable) {
+      flag = true;
+    }
+    return flag;
   }
 
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Question } from 'src/app/questions/models/question.model';
-import { QuestionService } from 'src/app/services/question.service';
+import { QuestionApiService } from 'src/app/questions/services/question-api.service';
 import { NgForm } from '@angular/forms';
 import { SideBarType } from '../../enums/sidebar.enum';
 import { Store } from '@ngrx/store';
@@ -17,7 +17,7 @@ import * as fromApp from '../../../store/app.reducer'
 export class QuestionEditComponent implements OnInit {
   @Input() question: Question;
   @ViewChild('f') editForm: NgForm
-  constructor(private questionService: QuestionService, private store: Store<fromApp.AppState>) { }
+  constructor(private questionService: QuestionApiService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
 

@@ -23,9 +23,7 @@ export class StackedBarChartComponent implements OnInit {
 
   }
 
-  onToggleChange(switchValue: boolean) {
-    this.chartsService.popularToggle.next(switchValue);
-  }
+
   // Run the function only in the browser
   browserOnly(f: () => void) {
     if (isPlatformBrowser(this.platformId)) {

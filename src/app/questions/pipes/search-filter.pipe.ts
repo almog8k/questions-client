@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import {Question} from 'src/app/questions/models/question.model'
+import { Question } from 'src/app/questions/models/question.model'
 
 @Pipe({
   name: 'searchFilter'
@@ -14,7 +14,6 @@ export class SearchFilterPipe implements PipeTransform {
       return questions;
     }
     searchText = searchText.toLocaleLowerCase();
-
-    return questions.filter(q=> q.name.toLocaleLowerCase().includes(searchText))
+    return questions.filter(q => q.name.toLocaleLowerCase().includes(searchText))
   }
 }

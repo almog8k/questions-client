@@ -1,6 +1,6 @@
 import { Component, OnInit, SimpleChange } from '@angular/core';
 import { Question } from '../models/question.model';
-import { QuestionService } from 'src/app/services/question.service';
+import { QuestionApiService } from 'src/app/questions/services/question-api.service';
 import { SideBarType } from '../enums/sidebar.enum';
 import { Store } from '@ngrx/store';
 import * as QuestionsListActions from './store/questions-list.actions';
@@ -15,59 +15,39 @@ import * as fromApp from '../../store/app.reducer';
 export class QuestionListComponent implements OnInit {
 
   tableHeaders = ['Id', 'Name', 'Date', ''];
-  selectOptions = ["Name", 'Date'];
+  selectOptions = ['Id', 'Name', 'Date'];
   questions: Question[];
   searchText: string = '';
+  option: string;
   popIsVisible = false;
   displayedPopQuestion: Question;
 
-  constructor(private questionService: QuestionService, private store: Store<fromApp.AppState>) { }
+  constructor(private questionService: QuestionApiService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
-    this.questionService.getQuestions().subscribe();
     this.store.select('questionsList').subscribe(
-      stateData => this.questions = stateData["questions"]
-    )
-    // this.store.select('questionsList').subscribe();
-    // this.questionService.questions.subscribe(
-    //   data => {
-    //     this.questions = data;
-    //   })
+      stateData => this.questions = stateData.questions
+    );
   }
 
   onSelectedDetails(questionEl: Question) {
     this.setSelectedQuestion(questionEl);
     this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.Details))
-    // this.questionService.selectedSideBar.next(SideBarType.Details);
-
   }
   onSelectedEdit(questionEl: Question) {
     this.setSelectedQuestion(questionEl);
     this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.Edit))
-    // this.questionService.selectedSideBar.next(SideBarType.Edit);
   }
   onSelectedCreate() {
     this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.Create))
-    // this.questionService.selectedSideBar.next(SideBarType.Create);
   }
 
   setSelectedQuestion(question: Question) {
-    // this.questionService.selectedQuestion.next(question);
     this.store.dispatch(new QuestionsListActions.SetSelectedQuestion(question));
   }
 
-  sortBy(option: String) {
-    console.log(option.valueOf());
-    switch (option) {
-      case "Name":
-        this.questions.sort((a, b) => a.name.localeCompare(b.name))
-        break;
-      case "Date":
-        this.questions.sort((a, b) => a.creationDate.localeCompare(b.creationDate))
-        break;
-      default:
-        break;
-    }
+  sortBy(option: string) {
+    this.option = option;
   }
   showPop(questionEl: Question): void {
     this.popIsVisible = true;

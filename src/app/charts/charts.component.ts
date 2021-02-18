@@ -1,9 +1,10 @@
 import { Component, OnDestroy, OnInit, SimpleChange } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { Question } from '../questions/models/question.model';
-import { QuestionService } from '../services/question.service';
 import { ChartService } from './services/chart.service';
-import * as fromApp from '../store/app.reducer'
+import * as fromApp from '../store/app.reducer';
+import * as ChartActions from './store/chart.actions';
+import { Question } from '../questions/models/question.model';
+import { ITreeNode } from './tree/treeModel/inode';
 
 
 @Component({
@@ -12,50 +13,49 @@ import * as fromApp from '../store/app.reducer'
   styleUrls: ['./charts.component.css']
 })
 export class ChartsComponent implements OnInit, OnDestroy {
-  questions: Question[];
   stackedBarData: any[] = [];
   pieChartData: any[] = [];
   seriesStackedBarData: string[] = [];
-  toggleValue = false;
+  toggleValue: boolean = false;
   noResults: boolean = false;
-  constructor(
-    private questionService: QuestionService,
-    private chartsService: ChartService,
-    private store: Store<fromApp.AppState>
-  ) { }
+  treeData: ITreeNode[];
+  constructor(private chartsService: ChartService, private store: Store<fromApp.AppState>) { }
 
 
   ngOnInit(): void {
-    this.questionService.getQuestions().subscribe(() => this.createChartsData());
-  }
-
-  createChartsData() {
     this.store.select("questionsList").subscribe(
       stateData => {
-        let questions = stateData["questions"];
-        this.chartsService.selectedDates.subscribe(
-          dateRange => {
-            this.chartsService.popularToggle.subscribe(
-              popularToggle => {
-                let filteredQuestions = this.chartsService.filterQuestionsByDate(questions, dateRange);
-                let chartQuestions = this.chartsService.getChartQuestions(filteredQuestions);
-                this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions, popularToggle);
-                this.seriesStackedBarData = this.chartsService.createStackedBarSeriesData(chartQuestions, popularToggle)
-                this.pieChartData = this.chartsService.createPieChartData(chartQuestions);
-              });
+        let questions = stateData.questions;
+        this.treeData = this.chartsService.createTreeData(questions)
+        this.store.select("charts").subscribe(
+          stateData => {
+            let filteredQuestions = this.chartsService.filterQuestionsByDate(questions, stateData.selectedDates);
+            this.noResults = this.isResults(filteredQuestions);
+            let chartQuestions = this.chartsService.getChartQuestions(filteredQuestions);
+            this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions, stateData.isPopularToggle);
+            this.seriesStackedBarData = this.chartsService.createStackedBarSeriesData(chartQuestions, stateData.isPopularToggle)
+            this.pieChartData = this.chartsService.createPieChartData(chartQuestions);
           });
       });
-    this.chartsService.noResults.subscribe(
-      noResults => this.noResults = noResults
-    );
+  }
+
+  setUpChartsData() {
 
   }
 
-  onToggleChange(switchValue: boolean) {
-    this.chartsService.popularToggle.next(switchValue);
+  isResults(filteredQuestions: Question[]) {
+    let flag = false;
+    if (filteredQuestions.length === 0) {
+      flag = true
+    }
+    return flag;
+  }
+  onToggleChange(toggleValue: boolean) {
+    this.store.dispatch(new ChartActions.PopularToggled(toggleValue));
   }
   ngOnDestroy(): void {
-    this.chartsService.selectedDates.next([]);
-    this.chartsService.popularToggle.next(false);
+    this.store.dispatch(new ChartActions.SetDates([]));
+    this.store.dispatch(new ChartActions.PopularToggled(false));
   }
+
 }

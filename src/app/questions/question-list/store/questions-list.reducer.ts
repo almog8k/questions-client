@@ -3,7 +3,7 @@ import { SideBarType } from '../../enums/sidebar.enum'
 import * as QuestionsListActions from './questions-list.actions'
 
 export interface State {
-    questions: any[];
+    questions: Question[];
     selectedQuestion: Question;
     selectedSideBar: SideBarType;
 }
@@ -15,7 +15,7 @@ const initialState: State = {
 };
 
 
-export function questionsListReducer(state: State = initialState, action) {
+export function questionsListReducer(state: State = initialState, action): State {
     switch (action.type) {
         case QuestionsListActions.SET_QUESTIONS:
             return {

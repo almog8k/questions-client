@@ -53,4 +53,5 @@ export type QuestionsListActionsType =
     | AddQuestion
     | EditQuestion
     | DeleteQuestion
-    | SetSelectedQuestion;
+    | SetSelectedQuestion
+    | SetSideBar;

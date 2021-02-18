@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
-import { QuestionService } from 'src/app/services/question.service';
+import { QuestionApiService } from 'src/app/questions/services/question-api.service';
 import { SideBarType } from '../../enums/sidebar.enum';
 import { Question } from '../../models/question.model';
 import { Store } from '@ngrx/store';
@@ -15,7 +15,7 @@ import * as fromApp from '../../../store/app.reducer'
 export class QuestionCreateComponent implements OnInit {
 
 
-  constructor(private questionService: QuestionService, private store: Store<fromApp.AppState>) { }
+  constructor(private questionService: QuestionApiService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
 

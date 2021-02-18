@@ -1,1 +1,19 @@
-<p>tree works!</p>
+<input type="text" placeholder="Search">
+<ng-template #treeViewList let-nodes>
+    <ul>
+        <li *ngFor="let node of nodes;let i=index ">
+            <div>
+                <i *ngIf="node.children.length > 0" nz-icon nzType="right"></i>
+                <input type="checkbox" [(ngModel)]="node.isChecked">
+                {{node.title}}
+                <ng-container *ngTemplateOutlet="treeViewList;
+                            context:{$implicit: node.children}">
+                </ng-container>
+            </div>
+
+        </li>
+    </ul>
+</ng-template>
+<ng-container *ngTemplateOutlet="treeViewList; 
+                                 context:{$implicit:data}">
+</ng-container>

@@ -1,29 +1,24 @@
-
 import { DatePipe } from '@angular/common';
 import { Injectable } from '@angular/core';
-import { BehaviorSubject } from 'rxjs';
+import { title } from 'process';
 import { Question } from 'src/app/questions/models/question.model';
 import { ChartQuestion } from '../models/chart-question.model';
+import { ITreeNode } from '../tree/treeModel/inode';
 
 
 @Injectable({
   providedIn: 'root'
 })
 export class ChartService {
-  selectedDates = new BehaviorSubject<Date[]>([]);
-  popularToggle = new BehaviorSubject<boolean>(false);
-  noResults = new BehaviorSubject(false);
   toggleSeriesData: string[] = [];
   constructor(private datePipe: DatePipe) { }
 
-
   //filter questions data by given date
   public filterQuestionsByDate(questions: Question[], dateRange: Date[]): Question[] {
-    let filteredQuestions = [];
+    let filteredQuestions: Question[] = [];
     let dateFrom = dateRange[0];
     let dateTo = dateRange[1];
     if (dateRange.length === 0) {
-      this.noResults.next(false);
       filteredQuestions = questions;
     }
     else {
@@ -33,9 +28,6 @@ export class ChartService {
           filteredQuestions.push(question);
         }
       });
-      if (filteredQuestions.length === 0) {
-        this.noResults.next(true);
-      }
     }
     return filteredQuestions;
   }
@@ -136,7 +128,6 @@ export class ChartService {
       ((a.questionCount > b.questionCount) ? -1 : 1) : 1);
     data = data.slice(0, 5);
     let popularHours = data.map(x => x.category);
-    console.log(popularHours);
     return popularHours;
   }
   //creates top 5 hours stackedBar data patern
@@ -197,5 +188,31 @@ export class ChartService {
       category[row.day]['value'] += source[i].count;
     }
     return data;
+  }
+
+  public createTreeData(Questions: Question[]) {
+    let treeData: ITreeNode[] = [];
+    Questions.forEach(question => {
+      let month = this.datePipe.transform(question.creationDate, "MMMM")
+      let node = treeData.find((node) => node.title === month);
+      if (!node) {
+        treeData.push({
+          title: month, children: [{
+            title: `${question.id}- ${question.name}`,
+            children: [], isChecked: false,
+            expendable: true
+          }],
+          isChecked: false, expendable: true
+        });
+      }
+      else {
+        node.children.push({
+          title: `${question.id}- ${question.name}`,
+          children: [], isChecked: false,
+          expendable: true
+        });
+      }
+    });
+    return treeData;
   }
 }
