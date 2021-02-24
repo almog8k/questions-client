@@ -191,25 +191,42 @@ export class ChartService {
   }
 
   public createTreeData(Questions: Question[]) {
-    let treeData: ITreeNode[] = [];
+    let treeData: ITreeNode[] = [{
+      title: "All",
+      children: [],
+      isChecked: false,
+      show: true,
+      indeterminate: false,
+      expendable: false
+    }];
     Questions.forEach(question => {
       let month = this.datePipe.transform(question.creationDate, "MMMM")
-      let node = treeData.find((node) => node.title === month);
+      let node = treeData[0].children.find((node) => node.title === month);
       if (!node) {
-        treeData.push({
-          title: month, children: [{
+        treeData[0].children.push({
+          title: month,
+          children: [{
             title: `${question.id}- ${question.name}`,
-            children: [], isChecked: false,
-            expendable: true
+            children: [],
+            isChecked: false,
+            show: true,
+            indeterminate: false,
+            expendable: false
           }],
-          isChecked: false, expendable: true
+          isChecked: false,
+          show: true,
+          indeterminate: false,
+          expendable: false
         });
       }
       else {
         node.children.push({
           title: `${question.id}- ${question.name}`,
-          children: [], isChecked: false,
-          expendable: true
+          children: [],
+          isChecked: false,
+          show: true,
+          indeterminate: false,
+          expendable: false
         });
       }
     });

@@ -42,7 +42,9 @@ import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { TreeComponent } from './charts/tree/tree.component';
 import * as fromApp from './store/app.reducer';
 import { QuestionsSortPipe } from './questions/pipes/questions-sort.pipe';
-import { TreeNodeComponent } from './charts/tree/tree-node/tree-node.component'
+import { TreeNodeComponent } from './charts/tree/tree-node/tree-node.component';
+import { TreeFilterPipe } from './charts/tree/pipes/tree-filter.pipe';
+import { EllipsisPipe } from './charts/tree/pipes/ellipsis.pipe'
 
 
 
@@ -69,7 +71,9 @@ registerLocaleData(en);
     DatePickerComponent,
     TreeComponent,
     QuestionsSortPipe,
-    TreeNodeComponent
+    TreeNodeComponent,
+    TreeFilterPipe,
+    EllipsisPipe
   ],
   imports: [
     BrowserModule,

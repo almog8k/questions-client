@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, SimpleChange } from '@angular/core';
 import { ITreeNode } from './treeModel/inode';
 
 @Component({
@@ -8,21 +8,34 @@ import { ITreeNode } from './treeModel/inode';
 })
 export class TreeComponent implements OnInit {
 
-  @Input() data: ITreeNode[];
+  @Input("data") data: ITreeNode[];
+  searchText: string = "";
   constructor() { }
 
-  ngOnInit(): void {
+  ngOnInit(): void { }
 
-
+  onSelect(node) {
+    let Indeterminate = false;
+    node.children.forEach(nodeChild => {
+      if (node.isChecked) {
+        nodeChild.isChecked = true;
+      }
+      else {
+        nodeChild.isChecked = false;
+        Indeterminate = true;
+      }
+      this.onSelect(nodeChild);
+    });
   }
 
-
-  onExpand(node) {
-    let flag = false;
-    if (node.expendable) {
-      flag = true;
-    }
-    return flag;
+  onExpand(node: ITreeNode) {
+    node.expendable ? node.expendable = false : node.expendable = true;
   }
 
+  onCheck(node: ITreeNode) {
+    node.isChecked ? node.isChecked = false : node.isChecked = true;
+    this.onSelect(node);
+  }
 }
+
+

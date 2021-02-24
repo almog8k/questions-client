@@ -5,6 +5,8 @@ import * as fromApp from '../store/app.reducer';
 import * as ChartActions from './store/chart.actions';
 import { Question } from '../questions/models/question.model';
 import { ITreeNode } from './tree/treeModel/inode';
+import { TreeFilterPipe } from './tree/pipes/tree-filter.pipe';
+
 
 
 @Component({
@@ -19,17 +21,21 @@ export class ChartsComponent implements OnInit, OnDestroy {
   toggleValue: boolean = false;
   noResults: boolean = false;
   treeData: ITreeNode[];
+  searchText: string = "";
+  questions: Question[];
   constructor(private chartsService: ChartService, private store: Store<fromApp.AppState>) { }
 
 
   ngOnInit(): void {
+
     this.store.select("questionsList").subscribe(
       stateData => {
         let questions = stateData.questions;
-        this.treeData = this.chartsService.createTreeData(questions)
+        this.questions = stateData.questions;
         this.store.select("charts").subscribe(
           stateData => {
             let filteredQuestions = this.chartsService.filterQuestionsByDate(questions, stateData.selectedDates);
+            this.treeData = this.chartsService.createTreeData(filteredQuestions);
             this.noResults = this.isResults(filteredQuestions);
             let chartQuestions = this.chartsService.getChartQuestions(filteredQuestions);
             this.stackedBarData = this.chartsService.createStackedBarData(chartQuestions, stateData.isPopularToggle);
@@ -37,10 +43,6 @@ export class ChartsComponent implements OnInit, OnDestroy {
             this.pieChartData = this.chartsService.createPieChartData(chartQuestions);
           });
       });
-  }
-
-  setUpChartsData() {
-
   }
 
   isResults(filteredQuestions: Question[]) {
@@ -57,5 +59,6 @@ export class ChartsComponent implements OnInit, OnDestroy {
     this.store.dispatch(new ChartActions.SetDates([]));
     this.store.dispatch(new ChartActions.PopularToggled(false));
   }
+
 
 }

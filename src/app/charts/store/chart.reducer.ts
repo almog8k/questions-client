@@ -1,14 +1,17 @@
+import { ITreeNode } from '../tree/treeModel/inode';
 import * as ChartActions from './chart.actions'
 
 export interface State {
 
     selectedDates: Date[];
     isPopularToggle: boolean;
+    initialTree: ITreeNode[];
 }
 
 const initialState: State = {
     selectedDates: [],
-    isPopularToggle: false
+    isPopularToggle: false,
+    initialTree: []
 };
 
 export function chartsReducer(state: State = initialState, action) {
@@ -22,6 +25,11 @@ export function chartsReducer(state: State = initialState, action) {
             return {
                 ...state,
                 isPopularToggle: action.payload
+            };
+        case ChartActions.SET_TREE:
+            return {
+                ...state,
+                initialTree: action.payload
             };
         default:
             return state;

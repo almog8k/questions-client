@@ -1,3 +1,49 @@
+.flex-container{
+  display: flex;
+  align-content: flex-start;
+  flex-flow: column wrap;
+  justify-content: space-between;
+  position: relative;
+  right: 5%;
+  
+}
 ul {
     list-style-type: none;
+  }
+  .search{
+  align-self: center;
+  width: 180px;
+  }
+  .tree-container{
+    margin-top: 10px;
+    align-self: center;
+    height: 100px;
+    width: 250px;
+    overflow-x: hidden;
+    overflow-y: scroll;
+    border: black 1px;
+  }
+  .cursor{
+    cursor: pointer;
+  }
+  
+  .ellipsis{
+    white-space: nowrap;  
+    overflow: hidden;
+    text-overflow: ellipsis; 
+  }
+  .container i {
+    display: block;
+    transition: all 0.4s ease;
+  }
+  .container i:click {
+    transform: rotateZ(-90deg);
+  }
+  .arrow-down{
+    transform: rotate(0deg);
+    transition: transform 0.4s linear;
+  }
+  .arrow-down.open{
+    transform: rotate(90deg);
+    transition: transform 0.4s linear;
   }
