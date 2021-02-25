@@ -196,6 +196,7 @@ export class ChartService {
       children: [],
       isChecked: false,
       show: true,
+      parent: undefined,
       indeterminate: false,
       expendable: false
     }];
@@ -203,21 +204,26 @@ export class ChartService {
       let month = this.datePipe.transform(question.creationDate, "MMMM")
       let node = treeData[0].children.find((node) => node.title === month);
       if (!node) {
-        treeData[0].children.push({
+        let newNode = {
           title: month,
-          children: [{
-            title: `${question.id}- ${question.name}`,
-            children: [],
-            isChecked: false,
-            show: true,
-            indeterminate: false,
-            expendable: false
-          }],
+          children: [],
           isChecked: false,
           show: true,
+          parent: treeData[0],
           indeterminate: false,
           expendable: false
-        });
+        }
+        let childNode = {
+          title: `${question.id}- ${question.name}`,
+          children: [],
+          isChecked: false,
+          show: true,
+          parent: newNode,
+          indeterminate: false,
+          expendable: false
+        }
+        newNode.children.push(childNode);
+        treeData[0].children.push(newNode);
       }
       else {
         node.children.push({
@@ -225,6 +231,7 @@ export class ChartService {
           children: [],
           isChecked: false,
           show: true,
+          parent: node,
           indeterminate: false,
           expendable: false
         });

@@ -14,18 +14,46 @@ export class TreeComponent implements OnInit {
 
   ngOnInit(): void { }
 
-  onSelect(node) {
-    let Indeterminate = false;
+
+  overTreeSelect(node: ITreeNode) {
     node.children.forEach(nodeChild => {
       if (node.isChecked) {
         nodeChild.isChecked = true;
+        nodeChild.indeterminate = false;
       }
       else {
         nodeChild.isChecked = false;
-        Indeterminate = true;
       }
-      this.onSelect(nodeChild);
+      this.overTreeSelect(nodeChild);
     });
+  }
+  overTreeindeterminate(node: ITreeNode) {
+    let checkedCount = 0
+    if (node.parent) {
+      node.parent.children.forEach(nodeChild => {
+        if (nodeChild.isChecked) {
+          checkedCount++;
+        }
+      });
+      if (checkedCount === 0) {
+        node.parent.isChecked = false;
+        node.parent.indeterminate = false;
+      }
+      else if (checkedCount === node.parent.children.length) {
+        node.parent.isChecked = true;
+        node.parent.indeterminate = false;
+      }
+      else {
+        node.parent.isChecked = false;
+        node.parent.indeterminate = true;
+      }
+      this.overTreeindeterminate(node.parent);
+    }
+  }
+  onSelect(node: ITreeNode) {
+    this.overTreeindeterminate(node);
+    this.overTreeSelect(node);
+
   }
 
   onExpand(node: ITreeNode) {

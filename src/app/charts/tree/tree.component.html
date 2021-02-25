@@ -16,17 +16,15 @@
                             <i *ngIf="node.children.length > 0" class="cursor arrow-down  "
                                 [ngClass]="{ 'open': node.expendable }" nz-icon nzType="caret-right"
                                 (click)="onExpand(node)"></i>
-                            <input class="cursor" type="checkbox" (change)="onSelect(node)"
-                                [(ngModel)]="node.isChecked">
+                            <input class="cursor" type="checkbox" [(indeterminate)]="node.indeterminate"
+                                (change)="onSelect(node, $event)" [(ngModel)]="node.isChecked">
                             <label class="cursor ellipsis" (click)="onCheck(node)">{{node.title| ellipsis}}</label>
-
                             <div *ngIf="node.expendable">
                                 <ng-container *ngTemplateOutlet="(treeViewList );
                                         context:{$implicit: (node.children ) }">
                                 </ng-container>
                             </div>
                         </div>
-
                     </li>
                 </ul>
             </ng-template>
