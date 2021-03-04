@@ -5,6 +5,7 @@ import { NzButtonModule } from 'ng-zorro-antd/button';
 import { NzDropDownModule } from 'ng-zorro-antd/dropdown';
 import { NzModalModule } from 'ng-zorro-antd/modal';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { NzSpinModule } from 'ng-zorro-antd/spin';;
 import { StoreModule } from '@ngrx/store'
 
 
@@ -40,11 +41,14 @@ import { QuestionIdPipe } from './questions/pipes/question-id.pipe';
 import { DatePickerComponent } from './charts/date-picker/date-picker.component';
 import { NzSwitchModule } from 'ng-zorro-antd/switch';
 import { TreeComponent } from './charts/tree/tree.component';
-import * as fromApp from './store/app.reducer';
+import { appReducer } from './store/app.reducer';
 import { QuestionsSortPipe } from './questions/pipes/questions-sort.pipe';
 import { TreeNodeComponent } from './charts/tree/tree-node/tree-node.component';
 import { TreeFilterPipe } from './charts/tree/pipes/tree-filter.pipe';
 import { EllipsisPipe } from './charts/tree/pipes/ellipsis.pipe'
+import { EffectsModule } from '@ngrx/effects';
+import { QuestionListEffects } from './questions/question-list/store/question-list.effects';
+import { LoadingSpinComponent } from './questions/question-list/helpers/loading-spin/loading-spin.component';
 
 
 
@@ -73,14 +77,16 @@ registerLocaleData(en);
     QuestionsSortPipe,
     TreeNodeComponent,
     TreeFilterPipe,
-    EllipsisPipe
+    EllipsisPipe,
+    LoadingSpinComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     FormsModule,
     HttpClientModule,
-    StoreModule.forRoot(fromApp.appReducer),
+    StoreModule.forRoot(appReducer),
+    EffectsModule.forRoot([QuestionListEffects]),
     NzButtonModule,
     BrowserAnimationsModule,
     IconsProviderModule,
@@ -89,7 +95,9 @@ registerLocaleData(en);
     NzDropDownModule,
     NzModalModule,
     NzDatePickerModule,
-    NzSwitchModule
+    NzSwitchModule,
+    NzSpinModule
+
   ],
   providers: [
     QuestionApiService,

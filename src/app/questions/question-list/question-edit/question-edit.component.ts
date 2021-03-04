@@ -27,7 +27,7 @@ export class QuestionEditComponent implements OnInit {
     let creationDate = this.question.creationDate
     let questionId = this.question.id;
     let updatedQuestion = { id: questionId, name: form.value.name, description: form.value.description, creationDate: creationDate }
-    this.questionService.editQuestion(updatedQuestion).subscribe();
+    this.store.dispatch(new QuestionsListActions.EditQuestion(updatedQuestion));
   }
   onClose() {
     this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.None));

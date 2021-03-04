@@ -99,7 +99,8 @@ export class ChartService {
       });
     } else {
       seriesData = this.toggleSeriesData;
-      seriesData.push("others");
+      if (chartQuestions.length > 5)
+        seriesData.push("others");
       this.toggleSeriesData = [];
     }
     seriesData.sort();

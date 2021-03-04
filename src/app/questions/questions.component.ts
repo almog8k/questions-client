@@ -5,14 +5,12 @@ import { Store } from '@ngrx/store';
 import * as fromApp from '../store/app.reducer'
 
 
-
 @Component({
   selector: 'app-questions',
   templateUrl: './questions.component.html',
   styleUrls: ['./questions.component.css'],
-
-
 })
+
 export class QuestionsComponent implements OnInit {
   selectedQuestion: Question;
   sideBar: SideBarType;
@@ -23,22 +21,10 @@ export class QuestionsComponent implements OnInit {
   ngOnInit(): void {
     this.store.select("questionsList").subscribe(
       stateData => {
-        this.selectedQuestion = stateData["selectedQuestion"];
+        this.selectedQuestion = stateData.selectedQuestion,
+          this.sideBar = stateData.selectedSideBar;
       }
     )
-    // this.questionService.selectedQuestion.subscribe(
-    //   (question: Question) => {
-    //     this.selectedQuestion = question
-    //   }
-    // );
-    this.store.select("questionsList").subscribe(
-      stateData => this.sideBar = stateData["selectedSideBar"]
-    )
-    // this.questionService.selectedSideBar.subscribe(
-    //   (toggle: SideBarType) => {
-    //     this.sideBar = toggle
-    //   }
-    // );
   }
 }
 

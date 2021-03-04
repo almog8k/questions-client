@@ -1,4 +1,5 @@
-<div class="list-container">
+<app-loading-spin *ngIf="loading"> </app-loading-spin>
+<div class="list-container" *ngIf="!loading">
   <div class="head-box">
     <div>
       <input type="text" [(ngModel)]="searchText" placeholder="Search..." class="search-box" />
@@ -46,7 +47,9 @@
   </div>
   <div class="btn-pos">
     <button class="btn" (click)="onSelectedCreate()">Add New Question</button>
+    <button class="btn" (click)="onSavePdf()">Save Pdf</button>
   </div>
+
 </div>
 
 

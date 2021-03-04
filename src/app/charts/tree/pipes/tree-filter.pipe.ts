@@ -9,9 +9,8 @@ export class TreeFilterPipe implements PipeTransform {
   transform(nodes: ITreeNode[], searchFilter: string) {
 
     if (searchFilter != "") {
-      searchFilter.toLowerCase();
-      let tree = nodes;
-      let filtered = filterTree(tree, searchFilter);
+      searchFilter = searchFilter.toLowerCase();
+      let filtered = filterTree(nodes, searchFilter);
       return filtered;
     }
     else {
@@ -29,16 +28,18 @@ function resetSearch(nodes: ITreeNode[]) {
   });
 }
 
-function filterTree(nodes: ITreeNode[], searchFilter) {
+function filterTree(nodes: ITreeNode[], searchFilter: string) {
   return nodes.map(node => filterRecursively(node, searchFilter));
 }
 
-function filterRecursively(node, searchFilter) {
+function filterRecursively(node: ITreeNode, searchFilter: string) {
   let temp;
   let exist = node.title.toLowerCase().includes(searchFilter);
   if (exist) {
     node.show = true;
     node.expendable = true;
+    temp = node.children.map(node => filterRecursively(node, searchFilter));
+    node.children = temp;
     return node;
   }
   if (node.children.length === 0) {
@@ -47,9 +48,9 @@ function filterRecursively(node, searchFilter) {
     return node;
   }
   temp = node.children.map(node => filterRecursively(node, searchFilter));
-  if (temp.length) {
-    node.expendable = true;
+  if (temp.length > 0) {
     node.show = true;
+    node.expendable = true;
     node.children = temp;
     return node;
   }

@@ -49,10 +49,8 @@
     text-align: center;
     text-decoration: none;
     display: inline-block;
-    font-size: 16px; 
-    margin-top: 30px; 
-    margin-bottom: 30px;
-    margin-left:496px;   
+    font-size: 16px;  
+    margin-left: 5px;
 }
 .icon{
   color: black;
@@ -80,4 +78,10 @@ border: lightgrey;
   display: flex;
   flex-direction: row;
   padding-top: 10px;
+}
+.btn-pos{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  padding: 20px;
 }

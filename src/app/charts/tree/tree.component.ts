@@ -23,37 +23,39 @@ export class TreeComponent implements OnInit {
       }
       else {
         nodeChild.isChecked = false;
+
       }
       this.overTreeSelect(nodeChild);
     });
   }
   overTreeindeterminate(node: ITreeNode) {
     let checkedCount = 0
+
     if (node.parent) {
       node.parent.children.forEach(nodeChild => {
         if (nodeChild.isChecked) {
           checkedCount++;
         }
       });
+      node.parent.isChecked = false;
+      node.parent.indeterminate = true;
       if (checkedCount === 0) {
         node.parent.isChecked = false;
         node.parent.indeterminate = false;
       }
-      else if (checkedCount === node.parent.children.length) {
+      if (checkedCount === node.parent.children.length) {
         node.parent.isChecked = true;
         node.parent.indeterminate = false;
       }
-      else {
-        node.parent.isChecked = false;
+      if (node.indeterminate) {
         node.parent.indeterminate = true;
       }
       this.overTreeindeterminate(node.parent);
     }
   }
   onSelect(node: ITreeNode) {
-    this.overTreeindeterminate(node);
     this.overTreeSelect(node);
-
+    this.overTreeindeterminate(node);
   }
 
   onExpand(node: ITreeNode) {

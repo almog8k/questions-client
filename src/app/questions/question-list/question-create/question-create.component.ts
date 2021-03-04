@@ -24,7 +24,7 @@ export class QuestionCreateComponent implements OnInit {
   onAddQuestion(form: NgForm) {
     let question = form.value;
     let newQuestion = new Question(question.name, question.description);
-    this.questionService.addQuestion(newQuestion).subscribe();
+    this.store.dispatch(new QuestionsListActions.AddQuestion(newQuestion));
     form.reset();
   }
   onCancel() {
