@@ -197,7 +197,7 @@ export class ChartService {
       children: [],
       isChecked: false,
       show: true,
-      parent: undefined,
+      parent: null,
       indeterminate: false,
       expendable: false
     }];

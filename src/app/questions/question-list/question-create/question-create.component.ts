@@ -14,7 +14,6 @@ import * as fromApp from '../../../store/app.reducer'
 })
 export class QuestionCreateComponent implements OnInit {
 
-
   constructor(private questionService: QuestionApiService, private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {

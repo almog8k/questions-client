@@ -46,7 +46,7 @@ export class QuestionListEffects {
                 (action) => this.questionsService.editQuestion(action.payload)
                     .pipe(
                         map((data) => {
-                            return new QuestionListActions.EditQuestionSuccess(data["newQuestion"])
+                            return new QuestionListActions.EditQuestionSuccess(data["qa"])
                         }),
                         catchError(error => of(new QuestionListActions.EditQuestionFailure(error)))
                     )

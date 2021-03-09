@@ -2,9 +2,9 @@
     "configurations": [
         {
             "type": "pwa-msedge",
-            "name": "http://localhost:4200/graphs",
+            "name": "http://localhost:4200/questions",
             "request": "launch",
-            "url": "http://localhost:4200/graphs"
+            "url": "http://localhost:4200/questions"
         }
     ]
 }

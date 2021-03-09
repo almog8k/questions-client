@@ -1,13 +1,13 @@
 import { Component, OnInit, SimpleChange } from '@angular/core';
 import { Question } from '../models/question.model';
-import { QuestionApiService } from 'src/app/questions/services/question-api.service';
 import { SideBarType } from '../enums/sidebar.enum';
 import { Store } from '@ngrx/store';
 import * as QuestionsListActions from './store/questions-list.actions';
-import * as fromApp from '../../store/app.reducer';
+import { AppState } from '../../store/app.reducer';
 import { jsPDF } from "jspdf";
 import autoTable from 'jspdf-autotable';
 import { DatePipe } from '@angular/common';
+import { interFont } from 'src/assets/fonts/inter-font-regular';
 
 
 
@@ -30,19 +30,22 @@ export class QuestionListComponent implements OnInit {
   popIsVisible: boolean = false;
   displayedPopQuestion: Question;
   loading: boolean;
+  error: Error;
 
 
-  constructor(private questionService: QuestionApiService, private store: Store<fromApp.AppState>, private datePipe: DatePipe) { }
+  constructor(private store: Store<AppState>, private datePipe: DatePipe) { }
 
   ngOnInit(): void {
     this.store.select('questionsList').subscribe(
       stateData => {
         this.questions = stateData.questions;
         this.loading = stateData.loading;
+        this.error = stateData.error;
       }
     );
 
   }
+
   creteTablePdfData() {
     let tableBody = [];
     this.questions.forEach(question => {
@@ -55,28 +58,32 @@ export class QuestionListComponent implements OnInit {
   onSavePdf() {
     const pdf = new jsPDF();
 
+    pdf.addFileToVFS("Inter-Regular.ttf", interFont);
+    pdf.addFont("Inter-Regular.ttf", 'Inter-Regular', 'normal')
+    pdf.setFont("Inter-Regular");
+    console.log(pdf.getFontList());
     let tableHeader = [['Id', 'Name', 'Description', 'Date']];
     let tableBody = this.creteTablePdfData();
 
     autoTable(pdf, {
+      margin: { top: 30 },
+      rowPageBreak: 'avoid',
       head: tableHeader,
       headStyles: { fontStyle: "bold" },
       body: tableBody,
-      columnStyles: { 3: { cellWidth: 50 }, 0: { fontStyle: "bold", cellWidth: 15, textColor: "black" } },
+      columnStyles: { 3: { cellWidth: 50 }, 0: { fontStyle: "bold", cellWidth: 15, textColor: "black" } }
     },
     )
 
     let numPages = pdf.getNumberOfPages();
-    let pageWidth = pdf.internal.pageSize.getWidth();
-    let pageHeight = pdf.internal.pageSize.getHeight();
 
     for (let i = 1; i <= numPages; i++) {
-
       pdf.setPage(i);
       pdf.setFontSize(15);
-      pdf.addImage("assets/images/QuestionMarks.jpg", "jpg", pageWidth / 8, pageHeight / 100, 20, 20)
-      pdf.text('Questions - Page ' + i + ' of ' + numPages, pageWidth / 2, pageHeight / 30, { align: 'center' });
+      pdf.addImage("assets/images/QuestionMarks.jpg", "jpg", 15, 5, 20, 20)
+      pdf.text('Questions - Page ' + i + ' of ' + numPages, 45, 15);
     }
+
     pdf.save("Questions.pdf")
   }
 

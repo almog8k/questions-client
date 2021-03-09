@@ -28,7 +28,7 @@ export class TreeComponent implements OnInit {
       this.overTreeSelect(nodeChild);
     });
   }
-  overTreeindeterminate(node: ITreeNode) {
+  overTreeCheckStatus(node: ITreeNode) {
     let checkedCount = 0
 
     if (node.parent) {
@@ -50,12 +50,12 @@ export class TreeComponent implements OnInit {
       if (node.indeterminate) {
         node.parent.indeterminate = true;
       }
-      this.overTreeindeterminate(node.parent);
+      this.overTreeCheckStatus(node.parent);
     }
   }
   onSelect(node: ITreeNode) {
     this.overTreeSelect(node);
-    this.overTreeindeterminate(node);
+    this.overTreeCheckStatus(node);
   }
 
   onExpand(node: ITreeNode) {

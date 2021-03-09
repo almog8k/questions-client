@@ -16,19 +16,21 @@ import * as fromApp from '../../../store/app.reducer'
 })
 export class QuestionEditComponent implements OnInit {
   @Input() question: Question;
-  @ViewChild('f') editForm: NgForm
-  constructor(private questionService: QuestionApiService, private store: Store<fromApp.AppState>) { }
+  // @ViewChild('f') editForm: NgForm;
+
+  constructor(private store: Store<fromApp.AppState>) { }
 
   ngOnInit(): void {
-
   }
   onEditQuestion(form: NgForm) {
-    console.log(this.question);
     let creationDate = this.question.creationDate
     let questionId = this.question.id;
     let updatedQuestion = { id: questionId, name: form.value.name, description: form.value.description, creationDate: creationDate }
     this.store.dispatch(new QuestionsListActions.EditQuestion(updatedQuestion));
   }
+
+
+
   onClose() {
     this.store.dispatch(new QuestionsListActions.SetSideBar(SideBarType.None));
   }
